@@ -107,8 +107,8 @@ void showGame(int *canShowGame) {
     // };
 
     int **sudokuGrid;
-    sudokuGrid = createSudokuGrid(sudokuGrid);
-    // initSudokuGrid(sudokuGrid);
+
+    //sudokuGrid = createSudokuGrid(sudokuGrid);
 
     choice = -1;
     strcpy(errorsBuffer, "");
@@ -226,24 +226,20 @@ void printSudoku(int **grid, int showEmptyCase) {
 }
 
 
-void ** createSudokuGrid(int **grid) {
-    grid = (int **) malloc(sizeof(int *) * SUDOKU_SIZE);
+int ** createSudokuGrid(int **grid, int size) {
+    grid = (int **) malloc(sizeof(int *) * size);
 
-    for (int i = 0; i < SUDOKU_SIZE; i++) {
-        grid[i] = (int *) malloc(sizeof(int) * 3);
+    for (int row = 0; row < SUDOKU_SIZE; row++) {
+	grid[row] = (int *) malloc(sizeof(int) * SUDOKU_SIZE);
     }
 
-    grid[0][0] = 5;
+    for (int row = 0; row < SUDOKU_SIZE; row++) {
+	for (int col = 0; col < SUDOKU_SIZE; col++) {
+	    grid[row][col] = 5;
+	}
+    }
 
     return grid;
-}
-
-void initSudokuGrid(int **grid) {
-    for (int i = 0; i < SUDOKU_SIZE; i++) {
-        for (int j = 0; j < SUDOKU_SIZE; j++) {
-            grid[i][j] = 0;
-        }
-    }
 }
 
 

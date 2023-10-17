@@ -36,8 +36,9 @@ void setCursorPosition(int x, int y);
 void getCursorPosition(int *x, int *y);
 void showMainMenu(int *canShowGame, int *loop);
 void showGame(int *canShowGame);
-void printSudoku(t_sudoku_grid g, int showEmptyCase);
+void printSudoku(int **grid, int showEmptyCase);
 void printfColor(int color, const char *format, ...);
+void ** createSudokuGrid(int **grid);
 
 
 int main() {
@@ -86,142 +87,94 @@ void showMainMenu(int *canShowGame, int *loop) {
 
 void showGame(int *canShowGame) {
     int choice;
-    t_sudoku_grid sudokuGrid = {
-        {0,0,-1, 0,0,0, 0,0,0},
-        {1,0,0, 0,0,-1, 0,0,1},
-        {0,0,0, 0,0,0, 0,0,0},
+    char instructionBuffer[100];
+    char errorsBuffer[100];
+    int caseNum;
+    int caseValue;
 
-        {0,0,0, 0,-1,0, 0,0,0},
-        {0,0,0, -1,0,-1, 0,0,0},
-        {0,0,0, 0,-1,0, 0,0,0},
+    // t_sudoku_grid sudokuGrid = {
+    //     {0,0,-1, 0,0,0, 0,0,0},
+    //     {1,0,0, 0,0,-1, 0,0,1},
+    //     {0,0,0, 0,0,0, 0,0,0},
 
-        {0,0,0, 0,0,0, 0,0,0},
-        {1,-1,0, 0,0,0, 0,0,1},
-        {0,0,0, 0,0,0, 0,-1,0},
-    };
+    //     {0,0,0, 0,-1,0, 0,0,0},
+    //     {0,0,0, -1,0,-1, 0,0,0},
+    //     {0,0,0, 0,-1,0, 0,0,0},
+
+    //     {0,0,0, 0,0,0, 0,0,0},
+    //     {1,-1,0, 0,0,0, 0,0,1},
+    //     {0,0,0, 0,0,0, 0,-1,0},
+    // };
+
+    int **sudokuGrid;
+    sudokuGrid = createSudokuGrid(sudokuGrid);
+    // initSudokuGrid(sudokuGrid);
 
     choice = -1;
+    strcpy(errorsBuffer, "");
 
     // boucle du jeu
     while (*canShowGame) {
         // system("clear");
 
         printf("Sudoku\n");
-
-        // printSudoku(sudokuGrid);
         printSudoku(sudokuGrid, 1);
 
-        printf("[1] Insérer une valeur\n[2] Retour au coup précédent\n[3] Retour au coup ...\n[4] Quitter la partie\n: ");
+        printf("[1] Insérer une valeur\n[2] Retour au coup précédent\n[3] Retour au coup ...\n[4] Quitter la partie\n");
+        printf("%s\n: ", errorsBuffer);
         scanf("%d", &choice);
         getchar();
 
-        switch (choice) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4: *canShowGame = 0;
-                break;
-            default:
-                printf("\nSaisie incorrecte\n");
-                break;
-        }
-    }
-}
+        if (choice == 1) {
+            clearTerm();
+            printf("Sudoku\n");
+            printSudoku(sudokuGrid, 1);
 
+            printf("[-1] Retour\n\n");
+            printf("Taper le numéro de la case que vous souhaiter modifier\n: ");
+            scanf("%d", &caseNum);
 
-void oldPrintSudoku(t_sudoku_grid g) {
-    int x;
-    int y;
-    int width = SUDOKU_SIZE + 1;
-    int height = SUDOKU_SIZE + SUDOKU_SIZE;
-
-    for (y = 0; y <= height; y++) {
-        for (x = 0; x <= width; x++) {
-            if (x == 0) {
-                // left
-                if (y == 0) {
-                    printf("%s", TOPLEFT_CORNER_CHAR);
-                } else if (y == height) {
-                    printf("%s", BOTTOMLEFT_CORNER_CHAR);
-                } else if (y % 2 == 0) {
-                    printf("%s", VERTIVAL_HORIZONTAL_RIGHT_CHAR);
-                } else {
-                    printf("%s", VERTICAL_CHAR);
-                }
-            } else if (x == width) {
-                // right corners
-                if (y == 0) {
-                    printf("%s", TOPRIGHT_CORNER_CHAR);
-                } else if (y == height) {
-                    printf("%s", BOTTOMRIGHT_CORNER_CHAR);
-                } else if (y % 2 == 0) {
-                    printf("%s", VERTIVAL_HORIZONTAL_LEFT_CHAR);
-                } else {
-                    printf("%s", VERTICAL_CHAR);
-                }
-            } else {
-                // top and bottom ligne
-                if (y == 0 && x < width -1) {
-                    printf("%s%s%s%s%s%s", HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_VERTIVAL_DOWN_CHAR);
-                }
-                if (y == 0 && x > width - 2 && x < width) {
-                    printf("%s%s%s%s%s", HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR);
-                }
-                if (y == height && x < width -1) {
-                    printf("%s%s%s%s%s%s", HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_VERTIVAL_UP_CHAR);
-                }
-                if (y == height && x > width - 2 && x < width) {
-                    printf("%s%s%s%s%s", HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR, HORIZONTAL_CHAR);
-                }
-
-                // ligne
-                if (y % 2 == 0 && y > 0 && y < height && x < width - 1) {
-                    printf("%s%s%s%s%s%s", HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR, CROSS);
-                }
-                // end of ligne
-                if (y % 2 == 0 && y > 0 && y < height && width - 2 < x && x < width) {
-                    printf("%s%s%s%s%s", HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR, HORIZONTAL_BOLD_CHAR);
-                }
-
-                // ligne value
-                if (y % 2 == 1 && y > 0 && y < height && x < width - 1) {
-                    printf("  %d  %s", g[y][x], VERTICAL_BOLD_CHAR);
-                }
-                // end of ligne value
-                if (y % 2 == 1 && y > 0 && y < height && x > width - 2 && x < width) {
-                    printf("  %d  ", g[SUDOKU_SIZE - (y - SUDOKU_SIZE)][x - 1]);
+            while (caseNum != -1) {
+                while (caseNum < -1 || caseNum > 0)
+                {
+                    
                 }
             }
+
+            // checker si la valeur existe dans la matrix des cases vide
+
+        } else if (choice == 4) {
+            *canShowGame = 0;
+        } else {
+            strcpy(errorsBuffer, "Saisie incorrecte");
         }
-        printf("\n");
     }
+
+    freeSudokuGrid(sudokuGrid, SUDOKU_SIZE);
 }
 
 
-void printSudoku(t_sudoku_grid g, int showEmptyCase) {
-    int x;
-    int y;
+void printSudoku(int **grid, int showEmptyCase) {
+    int row;
+    int col;
     int caseSize;
     caseSize = 6;
 
-    for (y = 0; y < SUDOKU_SIZE + 1; y++) {
+    for (row = 0; row < SUDOKU_SIZE + 1; row++) {
         // top and bottom left corner
-        if (y == 0) {
+        if (row == 0) {
             printf("%s", TOPLEFT_CORNER_CHAR);
-        } else if (y == SUDOKU_SIZE) {
+        } else if (row == SUDOKU_SIZE) {
             printf("%s", BOTTOMLEFT_CORNER_CHAR);
         } else {
             printf("%s", VERTIVAL_HORIZONTAL_RIGHT_CHAR);
         }
 
         // horizontal lignes
-        for (x = 0; x < SUDOKU_SIZE * caseSize - 1; x++) {
-            if (x % caseSize == caseSize - 1 && y != 0 && y != SUDOKU_SIZE) {
+        for (col = 0; col < SUDOKU_SIZE * caseSize - 1; col++) {
+            if (col % caseSize == caseSize - 1 && row != 0 && row != SUDOKU_SIZE) {
                 printf("%s", CROSS_BOLD);
-            } else if (y % 3 == 0 && y != 0 && y != SUDOKU_SIZE) {
+            } else if (row % 3 == 0 && row != 0 && row != SUDOKU_SIZE) {
                 printf("%s", HORIZONTAL_BOLD_CHAR);
             } else {
                 printf("%s", HORIZONTAL_CHAR);
@@ -229,23 +182,23 @@ void printSudoku(t_sudoku_grid g, int showEmptyCase) {
         }
 
         // top and bottom right corner
-        if (y == 0) {
+        if (row == 0) {
             printf("%s", TOPRIGHT_CORNER_CHAR);
-        } else if (y == SUDOKU_SIZE) {
+        } else if (row == SUDOKU_SIZE) {
             printf("%s", BOTTOMRIGHT_CORNER_CHAR);
         } else {
             printf("%s", VERTIVAL_HORIZONTAL_LEFT_CHAR);
         }
 
-        if (y < SUDOKU_SIZE) {
+        if (row < SUDOKU_SIZE) {
             printf("\n%s", VERTICAL_CHAR);
         }
 
-        for (x = 0; x < SUDOKU_SIZE; x++) {
-            if (x % 3 == 2 && x < SUDOKU_SIZE - 1) {
-                if (x < SUDOKU_SIZE && y < SUDOKU_SIZE && g[y][x] != -1) {
-                    printf(" %d   %s", g[y][x], VERTICAL_BOLD_CHAR);
-                } else if (y < SUDOKU_SIZE && g[y][x] == -1) {
+        for (col = 0; col < SUDOKU_SIZE; col++) {
+            if (col % 3 == 2 && col < SUDOKU_SIZE - 1) {
+                if (col < SUDOKU_SIZE && row < SUDOKU_SIZE && grid[row][col] != -1) {
+                    printf(" %d   %s", grid[row][col], VERTICAL_BOLD_CHAR);
+                } else if (row < SUDOKU_SIZE && grid[row][col] == -1) {
                     if (showEmptyCase) {
                         printfColor(44, "  ?  ");
                         printf("%s", VERTICAL_BOLD_CHAR);
@@ -255,9 +208,9 @@ void printSudoku(t_sudoku_grid g, int showEmptyCase) {
                     }
                 }
             } else {
-                if (x < SUDOKU_SIZE && y < SUDOKU_SIZE && g[y][x] != -1) {
-                    printf(" %d   %s", g[y][x], VERTICAL_CHAR);
-                } else if (y < SUDOKU_SIZE && g[y][x] == -1) {
+                if (col < SUDOKU_SIZE && row < SUDOKU_SIZE && grid[row][col] != -1) {
+                    printf(" %d   %s", grid[row][col], VERTICAL_CHAR);
+                } else if (row < SUDOKU_SIZE && grid[row][col] == -1) {
                     if (showEmptyCase) {
                         printfColor(44, "  ?  ");
                         printf("%s", VERTICAL_CHAR);
@@ -272,6 +225,36 @@ void printSudoku(t_sudoku_grid g, int showEmptyCase) {
     }
 }
 
+
+void ** createSudokuGrid(int **grid) {
+    grid = (int **) malloc(sizeof(int *) * SUDOKU_SIZE);
+
+    for (int i = 0; i < SUDOKU_SIZE; i++) {
+        grid[i] = (int *) malloc(sizeof(int) * 3);
+    }
+
+    grid[0][0] = 5;
+
+    return grid;
+}
+
+void initSudokuGrid(int **grid) {
+    for (int i = 0; i < SUDOKU_SIZE; i++) {
+        for (int j = 0; j < SUDOKU_SIZE; j++) {
+            grid[i][j] = 0;
+        }
+    }
+}
+
+
+void freeSudokuGrid(int **grid, int size) {
+    for (int i = 0; i < size; i++) {
+        free(grid[i]);
+    }
+    free(grid);
+}
+
+
 void setCursorPosition(int x, int y) {
     printf("\033[%d;%dH", y + 1, x + 1);
 }
@@ -281,6 +264,7 @@ void getCursorPosition(int *x, int *y) {
     printf("\033[6n");
     scanf("\033[%d;%dR", x, y);
 }
+
 
 void printfColor(int color, const char *format, ...) {
     char buffer[MAX_MSG_SIZE] = "";
@@ -292,4 +276,18 @@ void printfColor(int color, const char *format, ...) {
     va_end(args);
 
     printf("\033[%dm%s\033[0m", color, buffer);
+}
+
+
+void clearTerm(void) {
+    #ifdef _WIN32
+    system("cls");
+    #elif defined(__unix__) || defined(__APPLE__)
+    system("clear");
+    #endif
+}
+
+
+void countEmpyCase(t_sudoku_grid g) {
+    
 }

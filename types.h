@@ -23,8 +23,9 @@
 
 #define MAX_MSG_SIZE 100
 
-#define BLUE_FG 44
-#define BLUE_FG 44
+#define BLUE_BG 44
+#define YELLOW_BG 43
+#define GREEN_FG 32
 
 typedef int t_grid[SUDOKU_SIZE][SUDOKU_SIZE];
 

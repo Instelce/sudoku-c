@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../types.h"
+#include "math.h"
 
 
 int ** createSudokuGrid(int caseValue, int size) {
@@ -40,49 +41,7 @@ int ** createSudokuGridFrom(t_grid startGrid, int size) {
 }
 
 
-int *** createSudokuBlockGridFrom(t_grid startGrid, int size) {
-    int ***grid = (int ***) malloc(sizeof(int **) * size);
-    int blockLine = 0;
-    int v = 0;
-    int irow;
-    int icol;
-
-    // allocate
-    for (int blockIndex = 0; blockIndex < size; blockIndex++) {
-	    grid[blockIndex] = (int **) malloc(sizeof(int *) * 3);
-    }
-    for (int blockIndex = 0; blockIndex < size; blockIndex++) {
-        for (int row = 0; row < 3; row++) {
-            grid[blockIndex][row] = (int *) malloc(sizeof(int) * 3);
-        }
-    }
-
-    // initialized value
-    for (int blockIndex = 0; blockIndex < size; blockIndex++) 
-    {
-        for (int row = 0; row < 3; row++) 
-        {
-            for (int col = 0; col < 3; col++) 
-            {
-                irow = row + blockLine * 3;
-                icol = col + v;
-
-                grid[blockIndex][row][col] = startGrid[irow][icol];
-
-            }
-        }
-        v+=3;
-        if (blockIndex % 3 == 2 && blockIndex != 0) {
-            blockLine++;
-            v = 0;
-        }
-    }
-
-    return grid;
-}
-
-
-void printSudoku(int **grid, int showEmptyCase) {
+void printSudoku(int **grid, int **indexGrid, int showIndex, int *selectedCase) {
     int row;
     int col;
     int caseSize;
@@ -123,33 +82,60 @@ void printSudoku(int **grid, int showEmptyCase) {
         }
 
         for (col = 0; col < SUDOKU_SIZE; col++) {
-            if (col % 3 == 2 && col < SUDOKU_SIZE - 1) {
-                if (col < SUDOKU_SIZE && row < SUDOKU_SIZE && grid[row][col] != EMPTY_CASE) {
-                    printf(" %d   %s", grid[row][col], VERTICAL_BOLD_CHAR);
-                } else if (row < SUDOKU_SIZE && grid[row][col] == EMPTY_CASE) {
-                    if (showEmptyCase) {
-                        printfColor(44, "  ?  ");
-                        printf("%s", VERTICAL_BOLD_CHAR);
+            if (col < SUDOKU_SIZE && row < SUDOKU_SIZE) {
+
+                // Fill case
+                if (grid[row][col] != EMPTY_CASE) {
+                    if (selectedCase[0] != -1 && grid[selectedCase[0]][selectedCase[1]] != EMPTY_CASE && row == selectedCase[0] && col == selectedCase[1]) {
+                        printCase(grid[row][col], YELLOW_BG);
                     } else {
-                        printfColor(36, "  ?  ");
-                        printf("%s", VERTICAL_BOLD_CHAR);
+                        printCase(grid[row][col], -1);
                     }
                 }
-            } else {
-                if (col < SUDOKU_SIZE && row < SUDOKU_SIZE && grid[row][col] != EMPTY_CASE) {
-                    printf(" %d   %s", grid[row][col], VERTICAL_CHAR);
-                } else if (row < SUDOKU_SIZE && grid[row][col] == EMPTY_CASE) {
-                    if (showEmptyCase) {
-                        printfColor(44, "  ?  ");
-                        printf("%s", VERTICAL_CHAR);
+
+                // Empty case
+                else if (grid[row][col] == EMPTY_CASE) {
+                    if (selectedCase[0] != -1 && grid[selectedCase[0]][selectedCase[1]] == EMPTY_CASE && row == selectedCase[0] && col == selectedCase[1]) {
+                        printCase(indexGrid[row][col], YELLOW_BG);
                     } else {
-                        printfColor(36, "  ?  ");
-                        printf("%s", VERTICAL_CHAR);
+                        if (showIndex) {
+                            printCase(indexGrid[row][col], BLUE_BG);
+                        } else {
+                            printCase(-1, GREEN_FG);
+                        }
                     }
                 }
             }
         }
         printf("\n");
+    }
+}
+
+
+void printCase(int value, int color) {
+    if (color == -1) {
+        if (value == -1) {
+            printf("  ?  %s", VERTICAL_CHAR);
+        } else {
+            if (value > 9) {
+                printf(" %d  %s", value, VERTICAL_CHAR);
+            } else {
+                printf(" %d   %s", value, VERTICAL_CHAR);
+            }
+        }
+    } else {
+        if (value == -1) {
+            printfColor(color, "  ?  ");
+            printf("%s", VERTICAL_CHAR);
+        } else {
+            if (value > 9) {
+                printfColor(color, " %d  ", value);
+                printf("%s", VERTICAL_CHAR);
+            } else {
+                printfColor(color, " %d   ", value);
+                printf("%s", VERTICAL_CHAR);
+            }
+        }
     }
 }
 
@@ -162,17 +148,7 @@ void freeSudokuGrid(int **grid, int size) {
 }
 
 
-void freeSudokuBlockGrid(int ***grid, int size) {
-    for (int blockIndex = 0; blockIndex < size; blockIndex++) {
-        for (int row = 0; row < 3; row++) {
-            free(grid[blockIndex][row]);
-        }
-        free(grid[blockIndex]);
-    }
-    free(grid);
-}
-
-
+// Count function
 int countValue(int **grid, int value) {
     int count = 0;
     int size;
@@ -217,16 +193,32 @@ int countColValue(int **grid, int colIndex, int value) {
 }
 
 
-int countBlockValue(int ***grid, int blockIndex, int value) {
+int countBlockValue(int **grid, int blockIndex, int value) {
     int count = 0;
+    int blockLine = 0;
+    int blockInlineStart = 0;
+    int irow;
+    int icol;
 
-    for (int row = 0; row < 3; row++) 
+    for (int bIndex = 0; bIndex < SUDOKU_SIZE; bIndex++) 
     {
-        for (int col = 0; col < 3; col++) 
+        for (int row = 0; row < 3; row++) 
         {
-            if (grid[blockIndex][row][col] == value) {
-                count++;
+            for (int col = 0; col < 3; col++) 
+            {
+                irow = row + blockLine * 3;
+                icol = col + blockInlineStart;
+                if (grid[irow][icol] == value && bIndex == blockIndex) {
+                    count++;
+                }
             }
+        }
+        blockInlineStart+=3;
+
+        // new "line"
+        if (bIndex % 3 == 2 && bIndex != 0) {
+            blockLine++;
+            blockInlineStart = 0;
         }
     }
 
@@ -234,12 +226,82 @@ int countBlockValue(int ***grid, int blockIndex, int value) {
 }
 
 
-int getBlockIndice(int ***grid, int rowIndex, int colIndex) {
+int getBlockIndice(int rowIndex, int colIndex) {
     int irow = 0;
     int icol = 0;
+    int blockLine = 0;
+    int blockInlineStart = 0;
 
     for (int blockIndex = 0; blockIndex < SUDOKU_SIZE; blockIndex++) 
     {
-        
+        for (int row = 0; row < 3; row++) 
+        {
+            for (int col = 0; col < 3; col++) 
+            {
+                irow = row + blockLine * 3;
+                icol = col + blockInlineStart;
+
+                if (irow == rowIndex && icol == colIndex) {
+                    return blockIndex;
+                }
+            }
+        }
+
+        blockInlineStart+=3;
+
+        // new "line"
+        if (blockIndex % 3 == 2 && blockIndex != 0) {
+            blockLine++;
+            blockInlineStart = 0;
+        }
     }
+}
+
+
+int updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid, int size) {
+    int index = 0;
+
+    for (int row = 0; row < size; row++)
+    {
+        for (int col = 0; col < size; col++)
+        {
+            if (grid[row][col] == EMPTY_CASE) {
+                index++;
+                indexGrid[row][col] = index;
+            } else {
+                indexGrid[row][col] = 0;
+            }
+        }
+    }
+}
+
+
+int * getValueIndex(int **grid, int value) {
+    int *pos = (int *) malloc(sizeof(int) * 2);
+    for (int row = 0; row < SUDOKU_SIZE; row++) {
+        for (int col = 0; col < SUDOKU_SIZE; col++)
+        {
+            if (grid[row][col] == value) {
+                pos[0] = row;
+                pos[1] = col;
+                return pos;
+            }
+        }
+    }
+}
+
+
+int getMaxFromGrid(int ** grid) {
+    int max;
+
+    max = (int) -INFINITY;
+     for (int row = 0; row < SUDOKU_SIZE; row++) {
+        for (int col = 0; col < SUDOKU_SIZE; col++) {
+            if (grid[row][col] > max) {
+                max = grid[row][col];
+            }
+        }
+    }
+
+    return max;
 }

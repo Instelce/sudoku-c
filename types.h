@@ -2,6 +2,8 @@
 #define SUDOKU_SIZE 9
 #define EMPTY_CASE 0
 
+#define MAX_MOVE 10
+
 #define HORIZONTAL_BOLD_CHAR "\u2501"
 #define HORIZONTAL_CHAR "\u2500"
 #define VERTICAL_BOLD_CHAR "\u2503"
@@ -24,8 +26,17 @@
 #define MAX_MSG_SIZE 100
 
 #define BLUE_BG 44
+#define BLUE_FG 34
 #define YELLOW_BG 43
+#define YELLOW_FG 33
 #define GREEN_FG 32
+#define RED_FG 31
+#define FLASH_TEXT 5
+#define WHITE_BG 37
+#define WHITE_FG 47
+#define BLACK_BG 40
+#define BLACK_FG 30
+
 
 typedef int t_grid[SUDOKU_SIZE][SUDOKU_SIZE];
 

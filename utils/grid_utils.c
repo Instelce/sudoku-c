@@ -41,6 +41,34 @@ int ** createSudokuGridFrom(t_grid startGrid, int size) {
 }
 
 
+void printCase(int value, int foregroundColor, int backgroundColor) {
+    if (foregroundColor == -1 && backgroundColor == -1) {
+        if (value == -1) {
+            printf("  ?  %s", VERTICAL_CHAR);
+        } else {
+            if (value > 9) {
+                printf(" %d  %s", value, VERTICAL_CHAR);
+            } else {
+                printf(" %d   %s", value, VERTICAL_CHAR);
+            }
+        }
+    } else {
+        if (value == -1) {
+            printfColor(foregroundColor, backgroundColor, "  ?  ");
+            printf("%s", VERTICAL_CHAR);
+        } else {
+            if (value > 9) {
+                printfColor(foregroundColor, backgroundColor, " %d  ", value);
+                printf("%s", VERTICAL_CHAR);
+            } else {
+                printfColor(foregroundColor, backgroundColor, " %d   ", value);
+                printf("%s", VERTICAL_CHAR);
+            }
+        }
+    }
+}
+
+
 void printSudoku(int **grid, int **indexGrid, int showIndex, int *selectedCase) {
     int row;
     int col;
@@ -87,21 +115,21 @@ void printSudoku(int **grid, int **indexGrid, int showIndex, int *selectedCase) 
                 // Fill case
                 if (grid[row][col] != EMPTY_CASE) {
                     if (selectedCase[0] != -1 && grid[selectedCase[0]][selectedCase[1]] != EMPTY_CASE && row == selectedCase[0] && col == selectedCase[1]) {
-                        printCase(grid[row][col], YELLOW_BG);
+                        printCase(grid[row][col], -1, YELLOW_BG);
                     } else {
-                        printCase(grid[row][col], -1);
+                        printCase(grid[row][col], -1, -1);
                     }
                 }
 
                 // Empty case
                 else if (grid[row][col] == EMPTY_CASE) {
                     if (selectedCase[0] != -1 && grid[selectedCase[0]][selectedCase[1]] == EMPTY_CASE && row == selectedCase[0] && col == selectedCase[1]) {
-                        printCase(indexGrid[row][col], YELLOW_BG);
+                        printCase(indexGrid[row][col], -1, YELLOW_BG);
                     } else {
                         if (showIndex) {
-                            printCase(indexGrid[row][col], BLUE_BG);
+                            printCase(indexGrid[row][col], -1, BLUE_BG);
                         } else {
-                            printCase(-1, GREEN_FG);
+                            printCase(-1, GREEN_FG, -1);
                         }
                     }
                 }
@@ -112,39 +140,13 @@ void printSudoku(int **grid, int **indexGrid, int showIndex, int *selectedCase) 
 }
 
 
-void printCase(int value, int color) {
-    if (color == -1) {
-        if (value == -1) {
-            printf("  ?  %s", VERTICAL_CHAR);
-        } else {
-            if (value > 9) {
-                printf(" %d  %s", value, VERTICAL_CHAR);
-            } else {
-                printf(" %d   %s", value, VERTICAL_CHAR);
-            }
-        }
-    } else {
-        if (value == -1) {
-            printfColor(color, "  ?  ");
-            printf("%s", VERTICAL_CHAR);
-        } else {
-            if (value > 9) {
-                printfColor(color, " %d  ", value);
-                printf("%s", VERTICAL_CHAR);
-            } else {
-                printfColor(color, " %d   ", value);
-                printf("%s", VERTICAL_CHAR);
-            }
-        }
-    }
-}
-
-
-void freeSudokuGrid(int **grid, int size) {
+void freeMatrix(int **matrix, int size) {
     for (int i = 0; i < size; i++) {
-        free(grid[i]);
+        if (matrix[i] != NULL) {
+            free(matrix[i]);
+        }
     }
-    free(grid);
+    free(matrix);
 }
 
 
@@ -232,12 +234,9 @@ int getBlockIndice(int rowIndex, int colIndex) {
     int blockLine = 0;
     int blockInlineStart = 0;
 
-    for (int blockIndex = 0; blockIndex < SUDOKU_SIZE; blockIndex++) 
-    {
-        for (int row = 0; row < 3; row++) 
-        {
-            for (int col = 0; col < 3; col++) 
-            {
+    for (int blockIndex = 0; blockIndex < SUDOKU_SIZE; blockIndex++) {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 3; col++) {
                 irow = row + blockLine * 3;
                 icol = col + blockInlineStart;
 
@@ -255,16 +254,16 @@ int getBlockIndice(int rowIndex, int colIndex) {
             blockInlineStart = 0;
         }
     }
+
+    return 0;
 }
 
 
-int updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid, int size) {
+void updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid, int size) {
     int index = 0;
 
-    for (int row = 0; row < size; row++)
-    {
-        for (int col = 0; col < size; col++)
-        {
+    for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
             if (grid[row][col] == EMPTY_CASE) {
                 index++;
                 indexGrid[row][col] = index;
@@ -276,11 +275,11 @@ int updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid, int size) {
 }
 
 
-int * getValueIndex(int **grid, int value) {
+int * getValuePos(int **grid, int value) {
     int *pos = (int *) malloc(sizeof(int) * 2);
+
     for (int row = 0; row < SUDOKU_SIZE; row++) {
-        for (int col = 0; col < SUDOKU_SIZE; col++)
-        {
+        for (int col = 0; col < SUDOKU_SIZE; col++) {
             if (grid[row][col] == value) {
                 pos[0] = row;
                 pos[1] = col;
@@ -288,6 +287,9 @@ int * getValueIndex(int **grid, int value) {
             }
         }
     }
+
+    pos[0] = -1;
+    return pos;
 }
 
 

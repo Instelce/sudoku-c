@@ -11,11 +11,11 @@ void setCursorPosition(int x, int y) {
 
 void getCursorPosition(int *x, int *y) {
     printf("\033[6n");
-    scanf("\033[%d;%dR", x, y);
+    scanf("\033[%d;%dR\r", x, y);
 }
 
 
-void printfColor(int color, const char *format, ...) {
+void printfColor(int foregroundColor, int backgroundColor, const char *format, ...) {
     char buffer[MAX_MSG_SIZE] = "";
 
     va_list args;
@@ -24,7 +24,13 @@ void printfColor(int color, const char *format, ...) {
     vsnprintf(buffer, MAX_MSG_SIZE, format, args);
     va_end(args);
 
-    printf("\033[%dm%s\033[0m", color, buffer);
+    if (backgroundColor == -1) {
+        printf("\033[%dm%s\033[0m", foregroundColor, buffer);
+    } else if (foregroundColor == -1) {
+        printf("\033[%dm%s\033[0m", backgroundColor, buffer);
+    } else {
+        printf("\033[%d,%dm%s\033[0m", foregroundColor, backgroundColor, buffer);
+    }
 }
 
 

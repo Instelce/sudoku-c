@@ -3,6 +3,7 @@
         "term_utils.c": "cpp",
         "grid_utils.h": "c",
         "types.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "moves.c": "cpp"
     }
 }

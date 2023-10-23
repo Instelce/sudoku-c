@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "types.h"
+#include "utils/utils.h"
 #include "utils/term_utils.h"
 #include "utils/grid_utils.h"
 #include "moves.h"
@@ -17,14 +18,13 @@ t_grid originalSudokuGrid = {
         {7,0,0, 0,2,0, 0,0,6},
 
         {0,6,0, 0,0,0, 2,8,0},
-        {1,0,0, 4,1,9, 0,0,5},
+        {1,0,0, 4,0,9, 0,0,5},
         {0,0,0, 0,8,0, 0,7,9},
 };
 
 
 void showMainMenu(int *canShowGame, int *loop);
 void showGame(int *canShowGame);
-void checkAllocation(int *pointer);
 
 
 int main() {
@@ -118,18 +118,18 @@ void showGame(int *canShowGame) {
     strcpy(errorsBuffer, "");
 
     // check some function
-    printf("Check function\n");
-    printf("Value %d\n", countValue(sudokuGrid, 5));
-    printf("Row value %d\n", countRowValue(sudokuGrid, 0, 5));
-    printf("Col value %d\n", countColValue(sudokuGrid, 5, 5));
-    printf("Block value %d\n", countBlockValue(sudokuGrid, 3, 8));
-    printf("Block indice %d\n\n", getBlockIndice(3, 8));
+    // printf("Check function\n");
+    // printf("Value %d\n", countValue(sudokuGrid, 5));
+    // printf("Row value %d\n", countRowValue(sudokuGrid, 0, 5));
+    // printf("Col value %d\n", countColValue(sudokuGrid, 5, 5));
+    // printf("Block value %d\n", countBlockValue(sudokuGrid, 3, 8));
+    // printf("Block indice %d\n\n", getBlockIndice(3, 8));
 
     // sudoku loop
     while (*canShowGame) {
 
         // print sudoku grid
-        clearTerm();
+        // clearTerm();
         printf("Sudoku\n");
         printSudoku(sudokuGrid, indexGrid, showIndex, errorValue, selectedCase);
 
@@ -155,7 +155,8 @@ void showGame(int *canShowGame) {
             } else {
                 printf("\n[1] Insérer une valeur\n[2] Retour au coup précédent\n[3] Retour au coup ...\n[4] Quitter la partie\n");
             }
-            printf("%s\n: ", errorsBuffer);
+            printError(errorsBuffer);
+            printf(": ");
             scanf("%d", &choice);
             getchar();
         }
@@ -163,16 +164,17 @@ void showGame(int *canShowGame) {
         else if (instruction == 2) {
             printf("\n[0] Retour\n\n");
             printf("Taper le numéro de la case que vous souhaiter modifier\n");
-            printf("%s\n: ", errorsBuffer);
+            printError(errorsBuffer);
+            printf(": ");
             scanf("%d", &caseNum);
             getchar();
 
             // the case doesn't exist
             if (caseNum < 0 || caseNum > maxIndex) {
-                sprintf(errorsBuffer, "\nImposible de selectioner la case [%d]. \nVeuillez saisir une case valide.\n", caseNum);
+                sprintf(errorsBuffer, "Imposible de selectioner la case [%d]. \nVeuillez saisir une case valide.", caseNum);
             }
             // back to instruction 1
-            else if (caseNum == 0) {  
+            else if (caseNum == 0) {
                 instruction = 1;
                 showIndex = 0;
                 strcpy(errorsBuffer, "");
@@ -186,8 +188,9 @@ void showGame(int *canShowGame) {
                 if (sudokuGrid[selectedCase[0]][selectedCase[1]] == EMPTY_CASE)  {
                     instruction = 3;
                     showIndex = 0;
+                    strcpy(errorsBuffer, "");
                 } else {
-                    sprintf(errorsBuffer, "\nLa case %d n'est pas vide (%d,%d)\n", caseNum, selectedCase[0], selectedCase[1]);
+                    sprintf(errorsBuffer, "La case %d n'est pas vide (%d,%d)", caseNum, selectedCase[0], selectedCase[1]);
                 }
             }
         }
@@ -195,7 +198,8 @@ void showGame(int *canShowGame) {
         else if (instruction == 3) {
             printf("\n[0] Retour\n\n");
             printf("Saisir la valeur de la case [%d]\n", caseNum);
-            printf("%s\n: ", errorsBuffer);
+            printError(errorsBuffer);
+            printf(": ");
             scanf("%d", &caseValue);
             getchar();
 
@@ -204,6 +208,7 @@ void showGame(int *canShowGame) {
                 instruction = 2;
                 selectedCase[0] = -1;
                 errorValue = -1;
+                showIndex = 1;
                 strcpy(errorsBuffer, "");
             }
             // valid value
@@ -215,7 +220,7 @@ void showGame(int *canShowGame) {
                     countColValue(sudokuGrid, selectedCase[1], caseValue) > 1 ||
                     countBlockValue(sudokuGrid, getBlockIndice(selectedCase[0], selectedCase[1]), caseValue) > 1)
                 {
-                    sprintf(errorsBuffer, "\nImpossible de mettre la valeur %d dans la case %d car elle existe déjà,\nsoit dans la ligne, dans la colonne ou dans le block.\nVeuillez saisir une autre valeur.\n", caseValue, caseNum);
+                    sprintf(errorsBuffer, "Impossible de mettre la valeur %d dans la case %d car elle existe déjà,\nsoit dans la ligne, dans la colonne ou dans le block.\nVeuillez saisir une autre valeur.", caseValue, caseNum);
                     errorValue = sudokuGrid[selectedCase[0]][selectedCase[1]];
                     sudokuGrid[selectedCase[0]][selectedCase[1]] = 0;
                 } else {
@@ -235,13 +240,14 @@ void showGame(int *canShowGame) {
             }
             // error the value isn't between 1 and 9
             else {
-                sprintf(errorsBuffer, "\nImpossible de mettre %d comme valeur.\nVeullez saisir une valeur entre 1 et 9.\n", caseValue);
+                sprintf(errorsBuffer, "Impossible de mettre %d comme valeur.\nVeullez saisir une valeur entre 1 et 9.", caseValue);
             }
         }
         // Back to the previous move
         else if (instruction == 4) {
             printf("\nÊtes-vous sur de revenir au coup #%d\nSaisir o pour Oui ou n pour non.\n", lastMoveIndex + 1);
-            printf("%s\n: ", errorsBuffer);
+            printError(errorsBuffer);
+            printf(": ");
             scanf("%c", &previousMoveChoice);
             getchar();
 
@@ -268,7 +274,8 @@ void showGame(int *canShowGame) {
         else if (instruction == 5) {
             printf("\n[0] Retour\n\n");
             printf("Saisir l'indice du coup (%d à %d).\n", moves[0][0] + 1, lastMoveIndex + 1);
-            printf("%s\n: ", errorsBuffer);
+            printError(errorsBuffer);
+            printf(": ");
             scanf("%d", &returnMoveChoice);
             getchar();
 
@@ -300,7 +307,7 @@ void showGame(int *canShowGame) {
             instruction = 2;
             showIndex = 1;
             selectedCase[0] = -1;
-            choice = 10;
+            choice = 100;
             strcpy(errorsBuffer, "");
         } else if (choice == 4) {
             *canShowGame = 0;
@@ -320,23 +327,19 @@ void showGame(int *canShowGame) {
                 // highlight last move
                 selectedCase[0] = moves[lastMoveIndex][1];
                 selectedCase[1] = moves[lastMoveIndex][2];
-                choice = 10;
+                choice = 100;
+                strcpy(errorsBuffer, "");
             } else if (choice == 3) {
                 instruction = 5;
-                choice = 10;
+                choice = 100;
+                strcpy(errorsBuffer, "");
             }
-        } else if (choice == 10) {
+        } else if (choice == 100) {
             // redirection
-        } else if (choice < 1 || choice != 10 || choice > 4) {
-            strcpy(errorsBuffer, "Saisie incorrecte");
+        } else if (choice < 1 || choice != 100 || choice > 4) {
+            strcpy(errorsBuffer, "Saisie incorrecte.\nVeuillez saisir un nombre correspondant à une action.");
         }
     }
 }
 
 
-void checkAllocation(int *pointer) {
-    if (pointer == NULL) {
-        fprintf(stderr, "Allocation impossible\n");
-        exit(EXIT_FAILURE);
-    }
-}

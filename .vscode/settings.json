@@ -4,6 +4,7 @@
         "grid_utils.h": "c",
         "types.h": "c",
         "stdlib.h": "c",
-        "moves.c": "cpp"
+        "moves.c": "cpp",
+        "utils.c": "cpp"
     }
 }

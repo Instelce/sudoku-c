@@ -4,6 +4,7 @@
 int ** createSudokuGrid(int value);
 int ** createSudokuGridFrom(t_grid grid);
 void freeMatrix(int **matrix, int size);
+void updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid);
 
 void printCase(int value, int foregroundColor, int backgroundColor);
 void printSudoku(int **grid, int **indexGrid, int showIndex, int errorValue, int *selectedCase);
@@ -14,5 +15,3 @@ int countColValue(int **grid, int colIndex, int value);
 int countBlockValue(int **grid, int blockIndex, int value);
 int getBlockIndice(int rowIndex, int colIndex);
 int getMaxFromGrid(int ** grid);
-
-void updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid);

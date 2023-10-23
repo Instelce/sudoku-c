@@ -34,6 +34,15 @@ void printfColor(int foregroundColor, int backgroundColor, const char *format, .
 }
 
 
+void printError(char buffer[MAX_MSG_SIZE]) {
+    if (!strcmp(buffer, "") == 0) {
+        printfColor(RED_FG, -1, "\n%s\n\n", buffer);
+    } else {
+        printf("\n");
+    }
+}
+
+
 void clearTerm(void) {
     #ifdef _WIN32
     system("cls");

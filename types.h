@@ -23,7 +23,7 @@
 #define CROSS "\u253C"
 #define CROSS_BOLD "\u254B"
 
-#define MAX_MSG_SIZE 100
+#define MAX_MSG_SIZE 500
 
 #define BLUE_BG 44
 #define BLUE_FG 34

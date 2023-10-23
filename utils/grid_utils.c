@@ -120,7 +120,7 @@ void printSudoku(int **grid, int **indexGrid, int showIndex, int errorValue, int
             if (col < SUDOKU_SIZE && row < SUDOKU_SIZE) {
                 caseValue = grid[row][col];
 
-                // fill case
+                // fill cases
                 if (caseValue != EMPTY_CASE) {
                     // show selected case if it exists
                     if (selectedCase[0] != -1 &&
@@ -143,14 +143,14 @@ void printSudoku(int **grid, int **indexGrid, int showIndex, int errorValue, int
                     }
                 }
 
-                // empty case
+                // empty cases
                 else if (caseValue == EMPTY_CASE) {
                     // show selected case if it exists
                     if (selectedCase[0] != -1 &&
                         grid[selectedCase[0]][selectedCase[1]] == EMPTY_CASE &&
                         row == selectedCase[0] &&
                         col == selectedCase[1]) {
-                        printCase(indexGrid[row][col], -1, YELLOW_BG);
+                        printCase(-1, -1, YELLOW_BG);
                     } 
                     // show index cases
                     else if (showIndex) {
@@ -178,7 +178,7 @@ void freeMatrix(int **matrix, int size) {
 }
 
 
-// Count function
+// Count functions
 int countValue(int **grid, int value) {
     int count = 0;
     int size;

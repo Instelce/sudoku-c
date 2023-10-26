@@ -3,11 +3,17 @@
 #include "../types.h"
 #include "math.h"
 
-
+/**
+ * @brief Create a Sudoku Grid object
+ * 
+ * @param caseValue 
+ * @return int** 
+ */
 int ** createSudokuGrid(int caseValue) {
     int ** grid = (int **) malloc(sizeof(int *) * SUDOKU_SIZE);
     checkAllocation(grid);
 
+    // allocate
     for (int row = 0; row < SUDOKU_SIZE; row++) {
 	    grid[row] = (int *) malloc(sizeof(int) * SUDOKU_SIZE);
         checkAllocation(grid[row]);
@@ -23,7 +29,12 @@ int ** createSudokuGrid(int caseValue) {
     return grid;
 }
 
-
+/**
+ * @brief Create a Sudoku Grid From object
+ * 
+ * @param startGrid 
+ * @return int** 
+ */
 int ** createSudokuGridFrom(t_grid startGrid) {
     int **grid = (int **) malloc(sizeof(int *) * SUDOKU_SIZE);
     checkAllocation(grid);
@@ -45,6 +56,36 @@ int ** createSudokuGridFrom(t_grid startGrid) {
 }
 
 
+/**
+ * @fn void updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid)
+ * @brief Updating a grid containing the indexes of empty cells in another grid
+ * 
+ * @param indexGrid 
+ * @param grid 
+ */
+void updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid) {
+    int index = 0;
+
+    for (int row = 0; row < SUDOKU_SIZE; row++) {
+        for (int col = 0; col < SUDOKU_SIZE; col++) {
+            if (grid[row][col] == EMPTY_CASE) {
+                index++;
+                indexGrid[row][col] = index;
+            } else {
+                indexGrid[row][col] = 0;
+            }
+        }
+    }
+}
+
+
+/**
+ * @brief 
+ * 
+ * @param value 
+ * @param foregroundColor 
+ * @param backgroundColor 
+ */
 void printCase(int value, int foregroundColor, int backgroundColor) {
     if (foregroundColor == -1 && backgroundColor == -1) {
         if (value == -1) {
@@ -53,7 +94,7 @@ void printCase(int value, int foregroundColor, int backgroundColor) {
             if (value > 9) {
                 printf(" %d  %s", value, VERTICAL_CHAR);
             } else {
-                printf(" %d   %s", value, VERTICAL_CHAR);
+                printf("  %d  %s", value, VERTICAL_CHAR);
             }
         }
     } else {
@@ -65,7 +106,7 @@ void printCase(int value, int foregroundColor, int backgroundColor) {
                 printfColor(foregroundColor, backgroundColor, " %d  ", value);
                 printf("%s", VERTICAL_CHAR);
             } else {
-                printfColor(foregroundColor, backgroundColor, " %d   ", value);
+                printfColor(foregroundColor, backgroundColor, "  %d  ", value);
                 printf("%s", VERTICAL_CHAR);
             }
         }
@@ -73,6 +114,15 @@ void printCase(int value, int foregroundColor, int backgroundColor) {
 }
 
 
+/**
+ * @brief 
+ * 
+ * @param grid 
+ * @param indexGrid 
+ * @param showIndex 
+ * @param errorValue 
+ * @param selectedCase 
+ */
 void printSudoku(int **grid, int **indexGrid, int showIndex, int errorValue, int *selectedCase) {
     int row;
     int col;
@@ -93,8 +143,15 @@ void printSudoku(int **grid, int **indexGrid, int showIndex, int errorValue, int
 
         // horizontal lignes
         for (col = 0; col < SUDOKU_SIZE * caseSize - 1; col++) {
-            if (col % caseSize == caseSize - 1 && row != 0 && row != SUDOKU_SIZE) {
-                printf("%s", CROSS_BOLD);
+            if (col % caseSize == caseSize - 1 && row == 0) {
+                printf("%s", HORIZONTAL_VERTIVAL_DOWN_CHAR);
+            } else if (col % caseSize == caseSize - 1 && row == SUDOKU_SIZE) {
+                printf("%s", HORIZONTAL_VERTIVAL_UP_CHAR);
+            } else if (row != 0 && row != SUDOKU_SIZE && col % caseSize == caseSize - 1) {
+                if (row % 3 == 0)
+                    printf("%s", CROSS_BOLD);
+                else
+                    printf("%s", CROSS);
             } else if (row % 3 == 0 && row != 0 && row != SUDOKU_SIZE) {
                 printf("%s", HORIZONTAL_BOLD_CHAR);
             } else {
@@ -168,17 +225,19 @@ void printSudoku(int **grid, int **indexGrid, int showIndex, int errorValue, int
 }
 
 
-void freeMatrix(int **matrix, int size) {
-    for (int i = 0; i < size; i++) {
-        if (matrix[i] != NULL) {
-            free(matrix[i]);
-        }
-    }
-    free(matrix);
-}
+
 
 
 // Count functions
+
+/**
+ * @fn int countValue(int **grid, int value)
+ * @brief 
+ * 
+ * @param grid 
+ * @param value 
+ * @return int 
+ */
 int countValue(int **grid, int value) {
     int count = 0;
     int size;
@@ -195,6 +254,15 @@ int countValue(int **grid, int value) {
 }
 
 
+/**
+ * @fn int countRowValue(int **grid, int rowIndex, int value)
+ * @brief 
+ * 
+ * @param grid 
+ * @param rowIndex 
+ * @param value 
+ * @return int 
+ */
 int countRowValue(int **grid, int rowIndex, int value) {
     int count = 0;
     int size;
@@ -209,6 +277,15 @@ int countRowValue(int **grid, int rowIndex, int value) {
 }
 
 
+/**
+ * @fn int countColValue(int **grid, int colIndex, int value)
+ * @brief 
+ * 
+ * @param grid 
+ * @param colIndex 
+ * @param value 
+ * @return int 
+ */
 int countColValue(int **grid, int colIndex, int value) {
     int count = 0;
     int size;
@@ -223,6 +300,15 @@ int countColValue(int **grid, int colIndex, int value) {
 }
 
 
+/**
+ * @fn int countBlockValue(int **grid, int blockIndex, int value)
+ * @brief 
+ * 
+ * @param grid 
+ * @param blockIndex 
+ * @param value 
+ * @return int 
+ */
 int countBlockValue(int **grid, int blockIndex, int value) {
     int count = 0;
     int blockLine = 0;
@@ -256,6 +342,14 @@ int countBlockValue(int **grid, int blockIndex, int value) {
 }
 
 
+/**
+ * @fn int getBlockIndice(int rowIndex, int colIndex)
+ * @brief Get the Block Indice from row and col index
+ * 
+ * @param rowIndex 
+ * @param colIndex 
+ * @return int 
+ */
 int getBlockIndice(int rowIndex, int colIndex) {
     int irow = 0;
     int icol = 0;
@@ -287,22 +381,14 @@ int getBlockIndice(int rowIndex, int colIndex) {
 }
 
 
-void updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid) {
-    int index = 0;
-
-    for (int row = 0; row < SUDOKU_SIZE; row++) {
-        for (int col = 0; col < SUDOKU_SIZE; col++) {
-            if (grid[row][col] == EMPTY_CASE) {
-                index++;
-                indexGrid[row][col] = index;
-            } else {
-                indexGrid[row][col] = 0;
-            }
-        }
-    }
-}
-
-
+/**
+ * @fn int * getValuePos(int **grid, int value)
+ * @brief Get the Value Pos of value in grid
+ * 
+ * @param grid 
+ * @param value
+ * @return int* 
+ */
 int * getValuePos(int **grid, int value) {
     int *pos = (int *) malloc(sizeof(int) * 2);
 
@@ -321,7 +407,14 @@ int * getValuePos(int **grid, int value) {
 }
 
 
-int getMaxFromGrid(int ** grid) {
+/**
+ * @fn int getMaxOfGrid(int ** grid)
+ * @brief Get the max value of a grid
+ * 
+ * @param grid 
+ * @return int 
+ */
+int getMaxOfGrid(int ** grid) {
     int max;
 
     max = (int) -INFINITY;

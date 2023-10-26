@@ -11,6 +11,13 @@ chaque movement à 3 valeurs :
     2: la position de la colonne
     3: la valeur de la case
 */
+
+/**
+ * @fn int ** initMoves()
+ * @brief Allocate and initialize all moves with the first value beeng -1
+ * 
+ * @return int** 
+ */
 int ** initMoves() {
     int **moves;
     moves = (int **) malloc(sizeof(int *) * MAX_MOVE);
@@ -28,6 +35,13 @@ int ** initMoves() {
 }
 
 
+/**
+ * @fn void printMoves(int **moves, int lastMoveIndex)
+ * @brief Print moves with style
+ * 
+ * @param moves 
+ * @param lastMoveIndex 
+ */
 void printMoves(int **moves, int lastMoveIndex) {
     for (int i = 0; i < MAX_MOVE; i++) {
         if (moves[i][0] != -1) {
@@ -41,6 +55,16 @@ void printMoves(int **moves, int lastMoveIndex) {
 }
 
 
+/**
+ * @fn void updateMove(int **moves, int moveIndex, int rowPos, int colPos, int caseValue)
+ * @brief Update a move
+ * 
+ * @param moves 
+ * @param moveIndex 
+ * @param rowPos 
+ * @param colPos 
+ * @param caseValue 
+ */
 void updateMove(int **moves, int moveIndex, int rowPos, int colPos, int caseValue) {
     moves[moveIndex][0] = moveIndex;
     moves[moveIndex][1] = rowPos;

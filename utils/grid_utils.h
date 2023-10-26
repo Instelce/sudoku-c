@@ -14,4 +14,4 @@ int countRowValue(int **grid, int rowIndex, int value);
 int countColValue(int **grid, int colIndex, int value);
 int countBlockValue(int **grid, int blockIndex, int value);
 int getBlockIndice(int rowIndex, int colIndex);
-int getMaxFromGrid(int ** grid);
+int getMaxOfGrid(int ** grid);

@@ -1,3 +1,14 @@
+/**
+ * @file main.c
+ * @author Célestin Besson
+ * @brief Fichier principal du jeu
+ * @version 0.1
+ * @date 2023-10-25 to...
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,6 +56,12 @@ int main() {
 }
 
 
+/**
+ * @brief Main menu function
+ * 
+ * @param canShowGame 
+ * @param loop 
+ */
 void showMainMenu(int *canShowGame, int *loop) {
     int choice;
 
@@ -71,6 +88,11 @@ void showMainMenu(int *canShowGame, int *loop) {
 }
 
 
+/**
+ * @brief Game function
+ * 
+ * @param canShowGame
+ */
 void showGame(int *canShowGame) {
 
     // variable declaration
@@ -81,7 +103,7 @@ void showGame(int *canShowGame) {
     int cursorPosY;
     int cursorPosX;
 
-    char errorsBuffer[300];
+    char errorsBuffer[MAX_MSG_SIZE];
 
     int caseNum;
     int caseValue;
@@ -112,10 +134,12 @@ void showGame(int *canShowGame) {
     errorValue = -1;
 
     showIndex = 0;
-    maxIndex = getMaxFromGrid(indexGrid);
+    maxIndex = getMaxOfGrid(indexGrid);
     moves = initMoves();
     lastMoveIndex = -1;
     strcpy(errorsBuffer, "");
+
+    // printTypeEffect("coucou");
 
     // check some function
     // printf("Check function\n");
@@ -129,7 +153,7 @@ void showGame(int *canShowGame) {
     while (*canShowGame) {
 
         // print sudoku grid
-        // clearTerm();
+        clearTerm();
         printf("Sudoku\n");
         printSudoku(sudokuGrid, indexGrid, showIndex, errorValue, selectedCase);
 
@@ -229,7 +253,7 @@ void showGame(int *canShowGame) {
                     updateMove(moves, lastMoveIndex, selectedCase[0], selectedCase[1], caseValue);
 
                     updateGridEmptyValueIndexFromGrid(indexGrid, sudokuGrid);
-                    maxIndex = getMaxFromGrid(indexGrid);
+                    maxIndex = getMaxOfGrid(indexGrid);
 
                     selectedCase[0] = -1;
                     errorValue = -1;
@@ -259,11 +283,13 @@ void showGame(int *canShowGame) {
                 lastMoveIndex--;
                 selectedCase[0] = -1;
                 instruction = 1;
+                strcpy(errorsBuffer, "");
             }
             // return to instruction 1
             else if (previousMoveChoice == 'n') {
                 instruction = 1;
                 selectedCase[0] = -1;
+                strcpy(errorsBuffer, "");
             }
             // input error
             else {
@@ -294,6 +320,7 @@ void showGame(int *canShowGame) {
                 updateGridEmptyValueIndexFromGrid(indexGrid, sudokuGrid);
                 selectedCase[0] = -1;
                 instruction = 1;
+                strcpy(errorsBuffer, "");
             }
             // input error
             else {
@@ -341,5 +368,3 @@ void showGame(int *canShowGame) {
         }
     }
 }
-
-

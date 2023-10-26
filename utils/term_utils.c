@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <time.h>
 #include "../types.h"
 
 
@@ -15,6 +16,14 @@ void getCursorPosition(int *x, int *y) {
 }
 
 
+/**
+ * @brief Custom printf for print with colors
+ * 
+ * @param foregroundColor 
+ * @param backgroundColor 
+ * @param format 
+ * @param ... 
+ */
 void printfColor(int foregroundColor, int backgroundColor, const char *format, ...) {
     char buffer[MAX_MSG_SIZE] = "";
 
@@ -34,6 +43,11 @@ void printfColor(int foregroundColor, int backgroundColor, const char *format, .
 }
 
 
+/**
+ * @brief Print error with style
+ * 
+ * @param buffer 
+ */
 void printError(char buffer[MAX_MSG_SIZE]) {
     if (!strcmp(buffer, "") == 0) {
         printfColor(RED_FG, -1, "\n%s\n\n", buffer);
@@ -43,6 +57,49 @@ void printError(char buffer[MAX_MSG_SIZE]) {
 }
 
 
+/**
+ * @brief 
+ * 
+ * @param seconds 
+ */
+void cooldown(int seconds)
+{
+    clock_t start = clock();
+    clock_t period = seconds * CLOCKS_PER_SEC;
+    clock_t elapsed;
+
+    do {
+        elapsed = clock() - start;
+    } while(elapsed < period);
+}
+
+
+/**
+ * @fn void printTypeEffect(char buffer[MAX_MSG_SIZE]) 
+ * @brief 
+ * 
+ * @param buffer 
+ */
+void printTypeEffect(char buffer[MAX_MSG_SIZE]) {
+    int bufferLenght = strlen(buffer);
+
+    int i = 0;
+    while (i < bufferLenght)
+    {
+        printf("%c", buffer[i]);
+        cooldown(1);
+        printf("%c", buffer[i]);
+
+        i++;
+    }
+}
+
+
+/**
+ * @fn void clearTerm(void)
+ * @brief Clear the terminal window
+ * 
+ */
 void clearTerm(void) {
     #ifdef _WIN32
     system("cls");

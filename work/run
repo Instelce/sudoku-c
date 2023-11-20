@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cc sudoku.c -o build/main -Wall
+./build/main

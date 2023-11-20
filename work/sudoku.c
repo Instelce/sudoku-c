@@ -48,7 +48,7 @@ typedef int t_grille[TAILLE][TAILLE];
 
 // -------------------------------------------------------------------------
 // Déclarations des fonctions
-// -------------------------------------------------------------------------
+//-------------------------------------------------------------------------
 
 void chargerGrille(t_grille grille);
 void afficherGrille(t_grille grille);

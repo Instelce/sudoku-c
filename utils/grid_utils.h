@@ -2,8 +2,7 @@
 #include "../types.h"
 
 int ** createSudokuGrid(int value);
-int ** createSudokuGridFrom(t_grid grid);
-void freeMatrix(int **matrix, int size);
+int ** createSudokuGridFrom(t_grille grid);
 void updateGridEmptyValueIndexFromGrid(int **indexGrid, int **grid);
 
 void printCase(int value, int foregroundColor, int backgroundColor);

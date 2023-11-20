@@ -35,7 +35,7 @@ int ** createSudokuGrid(int caseValue) {
  * @param startGrid 
  * @return int** 
  */
-int ** createSudokuGridFrom(t_grid startGrid) {
+int ** createSudokuGridFrom(t_grille startGrid) {
     int **grid = (int **) malloc(sizeof(int *) * SUDOKU_SIZE);
     checkAllocation(grid);
 
@@ -223,9 +223,6 @@ void printSudoku(int **grid, int **indexGrid, int showIndex, int errorValue, int
         printf("\n");
     }
 }
-
-
-
 
 
 // Count functions

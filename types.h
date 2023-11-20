@@ -38,6 +38,6 @@
 #define BLACK_FG 30
 
 
-typedef int t_grid[SUDOKU_SIZE][SUDOKU_SIZE];
+typedef int t_grille[SUDOKU_SIZE][SUDOKU_SIZE];
 
 

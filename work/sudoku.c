@@ -25,6 +25,12 @@
 #define MAX_MSG_SIZE 500
 #define MAX_SAISIE_SIZE 500
 
+#define GRILLE_COIN_CHAR '+'
+#define GRILLE_HORIZONTAL_SEP_CHAR '-'
+#define GRILLE_VERTICAL_SEP_CHAR '|'
+#define GRILLE_CASE_VIDE_CHAR '.'
+
+
 // Couleurs
 #define BLUE_BG 44
 #define BLUE_FG 34
@@ -56,7 +62,7 @@ void afficheLigneTiret();
 bool grilleRempli(t_grille grille);
 void copierGrille(t_grille grille, t_grille nouvelleGrille);
 
-int compteLigneValeur(t_grille grille, int ligneIndice, int valeur);
+int possibleLigne(t_grille grille, int ligneIndice, int valeur);
 int compteColonneValeur(t_grille grille, int colonneIndice, int valeur);
 int compteBlocValeur(t_grille grille, int blocIndice, int valeur);
 int obtenirBlocIndice(int ligneIndice, int colonneIndice);
@@ -76,39 +82,49 @@ int main()
 
     chargerGrille(grilleSudoku);
 
+    // boucle du jeu
     while (!grilleRempli(grilleSudoku))
     {
         afficherGrille(grilleSudoku);
 
         printf("Saisir le numéro de la ligne");
         saisir(&numLigne);
+
         // vérification des valeurs de la ligne
         while (numLigne < 1 || numLigne > TAILLE) {
             printErreur("Saisir un nombre entre 1 et 9.");
             saisir(&numLigne);
         }
+
         printSucces("Ok");
         numLigne--; // convertir la valeur pour quelle soit correcte pour la matrice
 
         printf("Saisir le numéro de la colonne");
         saisir(&numColonne);
+
         // vérification des valeurs de la colonne
         while (numColonne < 1 || numColonne > TAILLE) {
             printErreur("Saisir un nombre entre 1 et 9.");
             saisir(&numColonne);
         }
+
         printSucces("Ok");
         numColonne--; // convertir la valeur pour quelle soit correcte pour la matrice
 
+        // si la case est vide demmander la saisie de la valeur
         if (grilleSudoku[numLigne][numColonne] == CASE_VIDE) {
             printSucces("Ok la case est vide.");
+
             printf("Saisir la valeur de la case %d:%d", numLigne + 1, numColonne + 1);
             saisir(&valeur);
+
+            // vérification de la valeur
             while (valeur < 1 || valeur > TAILLE) {
                 printErreur("Saisir un nombre entre 1 et 9.");
                 saisir(&valeur);
             }
 
+            // si la valeur peut être mise dans la case
             est_possible = possible(grilleSudoku, numLigne, numColonne, valeur);
             if (est_possible) {
                 printSucces("Ok pas de problème.");
@@ -126,7 +142,7 @@ int main()
 
 
 // -------------------------------------------------------------------------
-// Fonctions lier à la grille
+// Fonctions lier à la GRILLE
 // -------------------------------------------------------------------------
 
 /**
@@ -163,7 +179,7 @@ void chargerGrille(t_grille grille)
 }
 
 /**
- * @brief Affichage customiser de la grille
+ * @brief Affichage personalisé de la grille
  * 
  * @param grille 
  */
@@ -186,21 +202,21 @@ void afficherGrille(t_grille grille) {
         for (int colonne = 0; colonne < TAILLE; colonne++) {
 
             if (colonne == 0) {
-                printf("%d |", ligne + 1);
+                printf("%d %c", ligne + 1, GRILLE_VERTICAL_SEP_CHAR);
             }
 
             // Afiche la valeur
             caseValeur = grille[ligne][colonne];
             if (ligne != TAILLE + 1) {
                 if (caseValeur == CASE_VIDE) {
-                    printf(" . ");
+                    printf(" %c ", GRILLE_CASE_VIDE_CHAR);
                 } else {
                     printf(" %d ", caseValeur);
                 }
             }
 
             if (colonne % 3 == 2) {
-                printf("|");
+                printf("%c", GRILLE_VERTICAL_SEP_CHAR);
             }
         }
 
@@ -221,7 +237,7 @@ void afficheLigneTiret() {
     printf("  ");
     for (int colonne = 0; colonne < TAILLE; colonne++) {
         if (colonne == TAILLE - 1) {
-            printf("----+");
+            printf("%*s+", 4, GRILLE_HORIZONTAL_SEP_CHAR);
         } else if (colonne % 3 == 0) {
             printf("+-");
         } else {
@@ -240,15 +256,38 @@ void afficheLigneTiret() {
  * @return false 
  */
 bool grilleRempli(t_grille grille) {
-    for (int lig = 0; lig < TAILLE; lig++) {
-        for (int col = 0; col < TAILLE; col++) {
-            if (grille[lig][col] == CASE_VIDE) {
-                return false;
-            }
+    int val;
+    int lig, col;
+    bool result;
+
+    result = false;
+
+    lig = 0;
+    col = 0;
+    val = grille[lig][col];
+
+    while (lig < TAILLE && val != CASE_VIDE)
+    {
+        if (lig < TAILLE) {
+            lig++;
         }
+        
+        if (col < TAILLE) {
+            col++;
+        } else if (col == TAILLE) {
+            lig = 0;
+            col = 0;
+        }
+        val = grille[lig][col];
     }
 
-    return true;
+    if (val == CASE_VIDE) {
+        result = false;
+    } else {
+        result = true;
+    }
+
+    return result;
 }
 
 /**
@@ -266,8 +305,9 @@ void copierGrille(t_grille grille, t_grille nouvelleGrille) {
     }
 }
 
+
 /**
- * @fn int compteLigneValeur(t_grille grille, int ligneIndice, int valeur)
+ * @fn int possibleLigne(t_grille grille, int ligneIndice, int valeur)
  * @brief Compte le nombre de valeur étant dans une ligne
  * 
  * @param grille 
@@ -275,8 +315,17 @@ void copierGrille(t_grille grille, t_grille nouvelleGrille) {
  * @param valeur 
  * @return int 
  */
-int compteLigneValeur(t_grille grille, int ligneIndice, int valeur) {
+int possibleLigne(t_grille grille, int ligneIndice, int valeur) {
     int count = 0;
+    int col;
+
+    col = 0;
+
+    while (grille[ligneIndice][col] == valeur)
+    {
+        /* code */
+    }
+    
 
     for (int col = 0; col < TAILLE; col++) {
         if (grille[ligneIndice][col] == valeur) {
@@ -407,7 +456,7 @@ bool possible(t_grille grille, int numLigne, int numColonne, int valeur) {
     copierGrille(grille, tempGrille);
     tempGrille[numLigne][numColonne] = valeur;
 
-    if (compteLigneValeur(tempGrille, numLigne, valeur) > 1 ||
+    if (possibleLigne(tempGrille, numLigne, valeur) > 1 ||
         compteColonneValeur(tempGrille, numColonne, valeur) > 1 ||
         compteBlocValeur(tempGrille, obtenirBlocIndice(numLigne, numColonne), valeur) > 1) {
         resultat = false;
@@ -418,7 +467,7 @@ bool possible(t_grille grille, int numLigne, int numColonne, int valeur) {
 
 
 // -------------------------------------------------------------------------
-// Fonctions lier au terminal
+// Fonctions lier au TERMINAL
 // -------------------------------------------------------------------------
 
 /**

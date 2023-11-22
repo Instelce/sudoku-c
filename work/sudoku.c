@@ -20,6 +20,7 @@
 // -------------------------------------------------------------------------
 
 #define TAILLE 9
+#define N 3
 #define CASE_VIDE 0
 
 #define MAX_MSG_SIZE 500
@@ -62,10 +63,9 @@ void afficheLigneTiret();
 bool grilleRempli(t_grille grille);
 void copierGrille(t_grille grille, t_grille nouvelleGrille);
 
-int possibleLigne(t_grille grille, int ligneIndice, int valeur);
-int compteColonneValeur(t_grille grille, int colonneIndice, int valeur);
-int compteBlocValeur(t_grille grille, int blocIndice, int valeur);
-int obtenirBlocIndice(int ligneIndice, int colonneIndice);
+bool possibleLigne(t_grille grille, int ligneIndice, int valeur);
+bool possibleColonne(t_grille grille, int colonneIndice, int valeur);
+bool possibleBloc(t_grille grille, int debutLigne, int debutColonne, int valeur);
 bool possible(t_grille grille, int numLigne, int numColonne, int valeur);
 
 void saisir(int *var);
@@ -74,8 +74,8 @@ void printfCouleur(int couleurCaractere, int couleurFond, const char *format, ..
 void printErreur(char message[]);
 void printSucces(char message[]);
 
-int main()
-{
+
+int main() {
     t_grille grilleSudoku;
     int numLigne, numColonne, valeur;
     bool est_possible;
@@ -89,25 +89,11 @@ int main()
 
         printf("Saisir le numéro de la ligne");
         saisir(&numLigne);
-
-        // vérification des valeurs de la ligne
-        while (numLigne < 1 || numLigne > TAILLE) {
-            printErreur("Saisir un nombre entre 1 et 9.");
-            saisir(&numLigne);
-        }
-
         printSucces("Ok");
         numLigne--; // convertir la valeur pour quelle soit correcte pour la matrice
 
         printf("Saisir le numéro de la colonne");
         saisir(&numColonne);
-
-        // vérification des valeurs de la colonne
-        while (numColonne < 1 || numColonne > TAILLE) {
-            printErreur("Saisir un nombre entre 1 et 9.");
-            saisir(&numColonne);
-        }
-
         printSucces("Ok");
         numColonne--; // convertir la valeur pour quelle soit correcte pour la matrice
 
@@ -118,19 +104,10 @@ int main()
             printf("Saisir la valeur de la case %d:%d", numLigne + 1, numColonne + 1);
             saisir(&valeur);
 
-            // vérification de la valeur
-            while (valeur < 1 || valeur > TAILLE) {
-                printErreur("Saisir un nombre entre 1 et 9.");
-                saisir(&valeur);
-            }
-
             // si la valeur peut être mise dans la case
             est_possible = possible(grilleSudoku, numLigne, numColonne, valeur);
             if (est_possible) {
-                printSucces("Ok pas de problème.");
                 grilleSudoku[numLigne][numColonne] = valeur;
-            } else {
-                printErreur("Pas possible, la valeur existe déjà soit dans la ligne, la colonne ou le block.");
             }
         } else {
             printErreur("La case n'est pas vide.");
@@ -237,7 +214,7 @@ void afficheLigneTiret() {
     printf("  ");
     for (int colonne = 0; colonne < TAILLE; colonne++) {
         if (colonne == TAILLE - 1) {
-            printf("%*s+", 4, GRILLE_HORIZONTAL_SEP_CHAR);
+            printf("----+");
         } else if (colonne % 3 == 0) {
             printf("+-");
         } else {
@@ -260,23 +237,17 @@ bool grilleRempli(t_grille grille) {
     int lig, col;
     bool result;
 
-    result = false;
-
     lig = 0;
     col = 0;
     val = grille[lig][col];
 
     while (lig < TAILLE && val != CASE_VIDE)
     {
-        if (lig < TAILLE) {
-            lig++;
-        }
-        
-        if (col < TAILLE) {
-            col++;
-        } else if (col == TAILLE) {
-            lig = 0;
+        if(col == TAILLE - 1) {
             col = 0;
+            lig++;
+        } else {
+            col++;
         }
         val = grille[lig][col];
     }
@@ -315,30 +286,19 @@ void copierGrille(t_grille grille, t_grille nouvelleGrille) {
  * @param valeur 
  * @return int 
  */
-int possibleLigne(t_grille grille, int ligneIndice, int valeur) {
-    int count = 0;
-    int col;
-
-    col = 0;
-
-    while (grille[ligneIndice][col] == valeur)
-    {
-        /* code */
-    }
-    
-
+bool possibleLigne(t_grille grille, int ligneIndice, int valeur) {
     for (int col = 0; col < TAILLE; col++) {
         if (grille[ligneIndice][col] == valeur) {
-            count++;
+            return false;
         }
     }
 
-    return count;
+    return true;
 }
 
 
 /**
- * @fn int compteColonneValeur(t_grille grille, int colonneIndice, int valeur)
+ * @fn int possibleColonne(t_grille grille, int colonneIndice, int valeur)
  * @brief Compte le nombre de valeur étant dans une colonne
  * 
  * @param grille 
@@ -346,21 +306,19 @@ int possibleLigne(t_grille grille, int ligneIndice, int valeur) {
  * @param valeur 
  * @return int 
  */
-int compteColonneValeur(t_grille grille, int colonneIndice, int valeur) {
-    int count = 0;
-
+bool possibleColonne(t_grille grille, int colonneIndice, int valeur) {
     for (int lig = 0; lig < TAILLE; lig++) {
         if (grille[lig][colonneIndice] == valeur) {
-            count++;
+            return false;
         }
     }
 
-    return count;
+    return true;
 }
 
 
 /**
- * @fn int compteBlocValeur(t_grille grille, int blocIndice, int valeur)
+ * @fn int possibleBloc(t_grille grille, int blocIndice, int valeur)
  * @brief Compte le nombre de valeur étant dans un bloc
  * 
  * @param grille 
@@ -368,75 +326,20 @@ int compteColonneValeur(t_grille grille, int colonneIndice, int valeur) {
  * @param valeur 
  * @return int 
  */
-int compteBlocValeur(t_grille grille, int blocIndice, int valeur) {
-    int count = 0;
-    int blocLigne = 0;
-    int blocLigneDebut = 0;
-    int ilig;
-    int icol;
+bool possibleBloc(t_grille grille, int debutLigne, int debutColonne, int valeur) {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            // Coordonnées dans la grille pour chaque élément du bloc
+            int ligne = debutLigne + i;
+            int colonne = debutColonne + j;
 
-    for (int bIndex = 0; bIndex < TAILLE; bIndex++) 
-    {
-        for (int lig = 0; lig < 3; lig++) 
-        {
-            for (int col = 0; col < 3; col++) 
-            {
-                ilig = lig + blocLigne * 3;
-                icol = col + blocLigneDebut;
-                if (grille[ilig][icol] == valeur && bIndex == blocIndice) {
-                    count++;
-                }
+            // Vérifie si la valeur est déjà présente dans le bloc
+            if (grille[ligne][colonne] == valeur) {
+                return false; // La valeur est déjà dans le bloc
             }
         }
-        blocLigneDebut+=3;
-
-        // nouvelle ligne de bloc
-        if (bIndex % 3 == 2 && bIndex != 0) {
-            blocLigne++;
-            blocLigneDebut = 0;
-        }
     }
-
-    return count;
-}
-
-
-/**
- * @fn int obtenirBlocIndice(int ligneIndice, int colonneIndice)
- * @brief Permet d'obtenir l'indice d'un block où se trouve les coordonnées (ligneIndice, colonneIndice).
- * 
- * @param ligneIndice 
- * @param colonneIndice 
- * @return int 
- */
-int obtenirBlocIndice(int ligneIndice, int colonneIndice) {
-    int ilig = 0;
-    int icol = 0;
-    int blocLigne = 0;
-    int blocLigneDebut = 0;
-
-    for (int blocIndice = 0; blocIndice < TAILLE; blocIndice++) {
-        for (int lig = 0; lig < 3; lig++) {
-            for (int col = 0; col < 3; col++) {
-                ilig = lig + blocLigne * 3;
-                icol = col + blocLigneDebut;
-
-                if (ilig == ligneIndice && icol == colonneIndice) {
-                    return blocIndice;
-                }
-            }
-        }
-
-        blocLigneDebut+=3;
-
-        // new "line"
-        if (blocIndice % 3 == 2 && blocIndice != 0) {
-            blocLigne++;
-            blocLigneDebut = 0;
-        }
-    }
-
-    return 0;
+    return true;
 }
 
 /**
@@ -451,15 +354,37 @@ int obtenirBlocIndice(int ligneIndice, int colonneIndice) {
  * @return false 
  */
 bool possible(t_grille grille, int numLigne, int numColonne, int valeur) {
-    bool resultat = true;
+    bool resultat;
     t_grille tempGrille;
-    copierGrille(grille, tempGrille);
-    tempGrille[numLigne][numColonne] = valeur;
+    char erreur[MAX_MSG_SIZE];
 
-    if (possibleLigne(tempGrille, numLigne, valeur) > 1 ||
-        compteColonneValeur(tempGrille, numColonne, valeur) > 1 ||
-        compteBlocValeur(tempGrille, obtenirBlocIndice(numLigne, numColonne), valeur) > 1) {
+    // copierGrille(grille, tempGrille);
+    // tempGrille[numLigne][numColonne] = valeur;
+
+    int estPossibleLigne = possibleLigne(grille, numLigne, valeur);
+    int estPossibleColonne = possibleColonne(grille, numColonne, valeur);
+    int estPossibleBlock = possibleBloc(grille, (numLigne / N) * N, (numColonne / N) * N, valeur);
+
+    if (estPossibleLigne && estPossibleColonne && estPossibleBlock) {
+        printSucces("Ok pas de problème.");
+        resultat = true;
+    } else {
+
         resultat = false;
+        if (!estPossibleLigne) {
+            sprintf(erreur, "\nImpossible de mettre la valeur %d dans la ligne %d.\n", valeur, numLigne + 1);
+        }
+        if (!estPossibleColonne) {
+            char tempErreur[MAX_MSG_SIZE];
+            sprintf(tempErreur, "Impossible de mettre la valeur %d dans la colonne %d.\n", valeur, numColonne + 1);
+            strcat(erreur, tempErreur);
+        }
+        if (!estPossibleBlock) {
+            char tempErreur[MAX_MSG_SIZE];
+            sprintf(tempErreur, "Impossible de mettre la valeur %d dans ce block.\n", valeur);
+            strcat(erreur, tempErreur);
+        }
+        printErreur(erreur);
     }
 
     return resultat;
@@ -483,11 +408,24 @@ void saisir(int *var) {
     printf("\n> ");
     scanf("%s", saisieCh);
 
-    while (sscanf(saisieCh, "%d", var) == 0)
-    {
+    while (sscanf(saisieCh, "%d", var) == 0) {
         printErreur("Veuillez saisir un nombre entier et non pas autre chose.");
         printf("> ");
         scanf("%s", saisieCh);
+    }
+
+
+    // vérification de la valeur
+    while (*var < 1 || *var > N * N) {
+        printErreur("Saisir un nombre entre 1 et 9.");
+        printf("\n> ");
+        scanf("%s", saisieCh);
+
+        while (sscanf(saisieCh, "%d", var) == 0) {
+            printErreur("Veuillez saisir un nombre entier et non pas autre chose.");
+            printf("> ");
+            scanf("%s", saisieCh);
+        }
     }
 }
 

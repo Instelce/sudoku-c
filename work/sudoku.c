@@ -1,7 +1,7 @@
 /**
  * @file sudoku.c
  * @author Célestin Besson
- * @brief Fichier principal du jeu
+ * @brief Fichier du jeu sodoku
  * @version 1
  * @date 2023-10-25 to...
  *
@@ -31,27 +31,15 @@
 #define GRILLE_VERTICAL_SEP_CHAR '|'
 #define GRILLE_CASE_VIDE_CHAR '.'
 
-
-// Couleurs
-#define BLUE_BG 44
-#define BLUE_FG 34
-#define YELLOW_BG 43
-#define YELLOW_FG 33
+// Code couleurs
 #define GREEN_FG 32
 #define RED_FG 31
-#define FLASH_TEXT 5
-#define WHITE_BG 37
-#define WHITE_FG 47
-#define BLACK_BG 40
-#define BLACK_FG 30
-
 
 // -------------------------------------------------------------------------
-// Types
+// Type
 // -------------------------------------------------------------------------
 
 typedef int t_grille[TAILLE][TAILLE];
-
 
 // -------------------------------------------------------------------------
 // Déclarations des fonctions
@@ -61,11 +49,10 @@ void chargerGrille(t_grille grille);
 void afficherGrille(t_grille grille);
 void afficheLigneTiret();
 bool grilleRempli(t_grille grille);
-void copierGrille(t_grille grille, t_grille nouvelleGrille);
 
 bool possibleLigne(t_grille grille, int ligneIndice, int valeur);
 bool possibleColonne(t_grille grille, int colonneIndice, int valeur);
-bool possibleBloc(t_grille grille, int debutLigne, int debutColonne, int valeur);
+bool possibleBloc(t_grille grille, int debutBlocLigne, int debutBlocColonne, int valeur);
 bool possible(t_grille grille, int numLigne, int numColonne, int valeur);
 
 void saisir(int *var);
@@ -74,49 +61,58 @@ void printfCouleur(int couleurCaractere, int couleurFond, const char *format, ..
 void printErreur(char message[]);
 void printSucces(char message[]);
 
+// -------------------------------------------------------------------------
+// Programme principal
+// -------------------------------------------------------------------------
 
-int main() {
+int main()
+{
     t_grille grilleSudoku;
     int numLigne, numColonne, valeur;
     bool est_possible;
 
     chargerGrille(grilleSudoku);
 
-    // boucle du jeu
+    // boucle du jeu, ne s'arrête que quand la grille est remplie
     while (!grilleRempli(grilleSudoku))
     {
         afficherGrille(grilleSudoku);
 
+        // saisie de la ligne
         printf("Saisir le numéro de la ligne");
         saisir(&numLigne);
-        printSucces("Ok");
         numLigne--; // convertir la valeur pour quelle soit correcte pour la matrice
 
+        // saisie de la colonne
         printf("Saisir le numéro de la colonne");
         saisir(&numColonne);
-        printSucces("Ok");
         numColonne--; // convertir la valeur pour quelle soit correcte pour la matrice
 
         // si la case est vide demmander la saisie de la valeur
-        if (grilleSudoku[numLigne][numColonne] == CASE_VIDE) {
+        if (grilleSudoku[numLigne][numColonne] == CASE_VIDE)
+        {
             printSucces("Ok la case est vide.");
 
             printf("Saisir la valeur de la case %d:%d", numLigne + 1, numColonne + 1);
             saisir(&valeur);
 
-            // si la valeur peut être mise dans la case
+            // vérification que la valeur peut être mise dans la grille
             est_possible = possible(grilleSudoku, numLigne, numColonne, valeur);
-            if (est_possible) {
+            if (est_possible)
+            {
                 grilleSudoku[numLigne][numColonne] = valeur;
             }
-        } else {
+        }
+        else
+        {
             printErreur("La case n'est pas vide.");
         }
     }
 
     printSucces("Bravo, tu es fini la grille");
-}
 
+    return 0;
+}
 
 // -------------------------------------------------------------------------
 // Fonctions lier à la GRILLE
@@ -125,8 +121,8 @@ int main() {
 /**
  * @fn void chargerGrille(t_grille grille)
  * @brief Charge les valeurs d'un grille a partir d'un nom de fichier
- * 
- * @param grille 
+ *
+ * @param grille t_grille grille a charger
  */
 void chargerGrille(t_grille grille)
 {
@@ -137,10 +133,7 @@ void chargerGrille(t_grille grille)
     printf("Nom du fichier ? ");
     scanf("%s", nomFichier);
 
-    // sprintf(nomFichier, "Grille1");
-
-    sprintf(cheminFichier, "./grilles/%s.sud", nomFichier);
-
+    sprintf(cheminFichier, "./grilles/%s", nomFichier);
 
     f = fopen(cheminFichier, "rb");
 
@@ -156,19 +149,26 @@ void chargerGrille(t_grille grille)
 }
 
 /**
+ * @fn void afficherGrille(t_grille grille)
  * @brief Affichage personalisé de la grille
- * 
- * @param grille 
+ *
+ * @param grille t_grille grille a afficher
  */
-void afficherGrille(t_grille grille) {
+void afficherGrille(t_grille grille)
+{
     int caseValeur;
 
-    for (int ligne = 0; ligne < TAILLE; ligne++) {
-        if (ligne == 0) {
+    for (int ligne = 0; ligne < TAILLE; ligne++)
+    {
+        // affiche les indices des collonnes
+        if (ligne == 0)
+        {
             printf("   ");
-            for (int colonne = 0; colonne < TAILLE; colonne++) {
+            for (int colonne = 0; colonne < TAILLE; colonne++)
+            {
                 printf(" %d ", colonne + 1);
-                if (colonne % 3 == 2) {
+                if (colonne % 3 == 2)
+                {
                     printf(" ");
                 }
             }
@@ -176,49 +176,64 @@ void afficherGrille(t_grille grille) {
             afficheLigneTiret();
         }
 
-        for (int colonne = 0; colonne < TAILLE; colonne++) {
+        for (int colonne = 0; colonne < TAILLE; colonne++)
+        {
 
-            if (colonne == 0) {
+            // affiche l'indice de la ligne
+            if (colonne == 0)
+            {
                 printf("%d %c", ligne + 1, GRILLE_VERTICAL_SEP_CHAR);
             }
 
-            // Afiche la valeur
+            // affiche la valeur
             caseValeur = grille[ligne][colonne];
-            if (ligne != TAILLE + 1) {
-                if (caseValeur == CASE_VIDE) {
+            if (ligne != TAILLE + 1)
+            {
+                if (caseValeur == CASE_VIDE)
+                {
                     printf(" %c ", GRILLE_CASE_VIDE_CHAR);
-                } else {
+                }
+                else
+                {
                     printf(" %d ", caseValeur);
                 }
             }
 
-            if (colonne % 3 == 2) {
+            if (colonne % 3 == 2)
+            {
                 printf("%c", GRILLE_VERTICAL_SEP_CHAR);
             }
         }
 
         printf("\n");
-        if (ligne % 3 == 2 || ligne == TAILLE - 1) {
+        if (ligne % 3 == 2 || ligne == TAILLE - 1)
+        {
             afficheLigneTiret(ligne);
         }
     }
 }
 
-
 /**
  * @fn void afficheLigneTiret()
  * @brief Affiche une ligne de tiret, est utilisé dans la fonction afficheGrille.
- * 
+ *
  */
-void afficheLigneTiret() {
+void afficheLigneTiret()
+{
     printf("  ");
-    for (int colonne = 0; colonne < TAILLE; colonne++) {
-        if (colonne == TAILLE - 1) {
-            printf("----+");
-        } else if (colonne % 3 == 0) {
-            printf("+-");
-        } else {
-            printf("----");
+    for (int colonne = 0; colonne < TAILLE; colonne++)
+    {
+        if (colonne == TAILLE - 1)
+        {
+            printf("%c%c%c%c%c", GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_COIN_CHAR);
+        }
+        else if (colonne % 3 == 0)
+        {
+            printf("%c%c", GRILLE_COIN_CHAR, GRILLE_HORIZONTAL_SEP_CHAR);
+        }
+        else
+        {
+            printf("%c%c%c%c", GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR);
         }
     }
     printf("\n");
@@ -227,68 +242,42 @@ void afficheLigneTiret() {
 /**
  * @fn bool grilleRempli(t_grille grille)
  * @brief Retourne un booleen selon si la grille est rempli ou non
- * 
- * @param grille 
- * @return true 
- * @return false 
+ *
+ * @param grille t_grile
+ * @return true
+ * @return false
  */
-bool grilleRempli(t_grille grille) {
-    int val;
-    int lig, col;
-    bool result;
-
-    lig = 0;
-    col = 0;
-    val = grille[lig][col];
-
-    while (lig < TAILLE && val != CASE_VIDE)
+bool grilleRempli(t_grille grille)
+{
+    for (int lig = 0; lig < 9; lig++)
     {
-        if(col == TAILLE - 1) {
-            col = 0;
-            lig++;
-        } else {
-            col++;
+        for (int col = 0; col < 9; col++)
+        {
+            // si la case est vide alors la grille n'est pas remplie
+            if (grille[lig][col] == CASE_VIDE)
+            {
+                return false;
+            }
         }
-        val = grille[lig][col];
     }
-
-    if (val == CASE_VIDE) {
-        result = false;
-    } else {
-        result = true;
-    }
-
-    return result;
+    return true;
 }
 
 /**
- * @fn void copierGrille(t_grille grille, t_grille nouvelleGrille)
- * @brief Copie les valeurs d'une grille sur une autre grille.
- * 
- * @param grille 
- * @param nouvelleGrille 
+ * @fn bool possibleLigne(t_grille grille, int ligneIndice, int valeur)
+ * @brief Retourne un booleen selon si la valeur est présente dans la ligne de la grille
+ *
+ * @param grille t_grille
+ * @param ligneIndice int
+ * @param valeur int
+ * @return int
  */
-void copierGrille(t_grille grille, t_grille nouvelleGrille) {
-    for (int lig = 0; lig < TAILLE; lig++) {
-        for (int col = 0; col < TAILLE; col++) {
-            nouvelleGrille[lig][col] = grille[lig][col];
-        }
-    }
-}
-
-
-/**
- * @fn int possibleLigne(t_grille grille, int ligneIndice, int valeur)
- * @brief Compte le nombre de valeur étant dans une ligne
- * 
- * @param grille 
- * @param ligneIndice 
- * @param valeur 
- * @return int 
- */
-bool possibleLigne(t_grille grille, int ligneIndice, int valeur) {
-    for (int col = 0; col < TAILLE; col++) {
-        if (grille[ligneIndice][col] == valeur) {
+bool possibleLigne(t_grille grille, int ligneIndice, int valeur)
+{
+    for (int col = 0; col < TAILLE; col++)
+    {
+        if (grille[ligneIndice][col] == valeur)
+        {
             return false;
         }
     }
@@ -296,19 +285,21 @@ bool possibleLigne(t_grille grille, int ligneIndice, int valeur) {
     return true;
 }
 
-
 /**
- * @fn int possibleColonne(t_grille grille, int colonneIndice, int valeur)
- * @brief Compte le nombre de valeur étant dans une colonne
- * 
- * @param grille 
- * @param colonneIndice 
- * @param valeur 
- * @return int 
+ * @fn bool possibleColonne(t_grille grille, int colonneIndice, int valeur)
+ * @brief Retourne un booleen selon si la valeur est présente dans la colonne de la grille
+ *
+ * @param grille t_grille
+ * @param colonneIndice int
+ * @param valeur int
+ * @return int
  */
-bool possibleColonne(t_grille grille, int colonneIndice, int valeur) {
-    for (int lig = 0; lig < TAILLE; lig++) {
-        if (grille[lig][colonneIndice] == valeur) {
+bool possibleColonne(t_grille grille, int colonneIndice, int valeur)
+{
+    for (int lig = 0; lig < TAILLE; lig++)
+    {
+        if (grille[lig][colonneIndice] == valeur)
+        {
             return false;
         }
     }
@@ -316,26 +307,30 @@ bool possibleColonne(t_grille grille, int colonneIndice, int valeur) {
     return true;
 }
 
-
 /**
- * @fn int possibleBloc(t_grille grille, int blocIndice, int valeur)
- * @brief Compte le nombre de valeur étant dans un bloc
- * 
- * @param grille 
- * @param blocIndice 
- * @param valeur 
- * @return int 
+ * @fn bool possibleBloc(t_grille grille, int debutBlocLigne, int debutBlocColonne, int valeur)
+ * @brief Retourne un booleen selon si la valeur est présente dans la colonne de la grille
+ *
+ * @param grille
+ * @param debutBlocLigne
+ * @param debutBlocColonne
+ * @param valeur
+ * @return int
  */
-bool possibleBloc(t_grille grille, int debutLigne, int debutColonne, int valeur) {
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            // Coordonnées dans la grille pour chaque élément du bloc
-            int ligne = debutLigne + i;
-            int colonne = debutColonne + j;
+bool possibleBloc(t_grille grille, int debutBlocLigne, int debutBlocColonne, int valeur)
+{
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            // coordonnées dans la grille pour chaque élément du bloc
+            int ligne = debutBlocLigne + i;
+            int colonne = debutBlocColonne + j;
 
-            // Vérifie si la valeur est déjà présente dans le bloc
-            if (grille[ligne][colonne] == valeur) {
-                return false; // La valeur est déjà dans le bloc
+            // vérifie si la valeur est présente dans le bloc
+            if (grille[ligne][colonne] == valeur)
+            {
+                return false;
             }
         }
     }
@@ -345,41 +340,44 @@ bool possibleBloc(t_grille grille, int debutLigne, int debutColonne, int valeur)
 /**
  * @fn bool possible(t_grille grille, int numLigne, int numColonne, int valeur)
  * @brief Retourne vrai si la valeur au coordonné passé en paramètre n'existe pas dans la ligne, la colonne ou le block, et faux si c'est l'inverse.
- * 
- * @param grille 
- * @param numLigne 
- * @param numColonne 
- * @param valeur 
- * @return true 
- * @return false 
+ *
+ * @param grille
+ * @param numLigne
+ * @param numColonne
+ * @param valeur
+ * @return true
+ * @return false
  */
-bool possible(t_grille grille, int numLigne, int numColonne, int valeur) {
+bool possible(t_grille grille, int numLigne, int numColonne, int valeur)
+{
     bool resultat;
-    t_grille tempGrille;
     char erreur[MAX_MSG_SIZE];
-
-    // copierGrille(grille, tempGrille);
-    // tempGrille[numLigne][numColonne] = valeur;
 
     int estPossibleLigne = possibleLigne(grille, numLigne, valeur);
     int estPossibleColonne = possibleColonne(grille, numColonne, valeur);
     int estPossibleBlock = possibleBloc(grille, (numLigne / N) * N, (numColonne / N) * N, valeur);
 
-    if (estPossibleLigne && estPossibleColonne && estPossibleBlock) {
+    if (estPossibleLigne && estPossibleColonne && estPossibleBlock)
+    {
         printSucces("Ok pas de problème.");
         resultat = true;
-    } else {
-
+    }
+    else
+    {
+        // Affichage des erreurs
         resultat = false;
-        if (!estPossibleLigne) {
+        if (!estPossibleLigne)
+        {
             sprintf(erreur, "\nImpossible de mettre la valeur %d dans la ligne %d.\n", valeur, numLigne + 1);
         }
-        if (!estPossibleColonne) {
+        if (!estPossibleColonne)
+        {
             char tempErreur[MAX_MSG_SIZE];
             sprintf(tempErreur, "Impossible de mettre la valeur %d dans la colonne %d.\n", valeur, numColonne + 1);
             strcat(erreur, tempErreur);
         }
-        if (!estPossibleBlock) {
+        if (!estPossibleBlock)
+        {
             char tempErreur[MAX_MSG_SIZE];
             sprintf(tempErreur, "Impossible de mettre la valeur %d dans ce block.\n", valeur);
             strcat(erreur, tempErreur);
@@ -390,38 +388,40 @@ bool possible(t_grille grille, int numLigne, int numColonne, int valeur) {
     return resultat;
 }
 
-
 // -------------------------------------------------------------------------
 // Fonctions lier au TERMINAL
 // -------------------------------------------------------------------------
 
 /**
  * @fn void saisir(int *var)
- * @brief Permet de saisir et de vérifier une valeur 
- * 
- * @param var
- * @param message 
+ * @brief Permet de saisir et de vérifier une valeur
+ *
+ * @param var variable affecté
  */
-void saisir(int *var) {
+void saisir(int *var)
+{
     char saisieCh[MAX_SAISIE_SIZE];
 
     printf("\n> ");
     scanf("%s", saisieCh);
 
-    while (sscanf(saisieCh, "%d", var) == 0) {
+    // vérification du type de la valeur
+    while (sscanf(saisieCh, "%d", var) == 0)
+    {
         printErreur("Veuillez saisir un nombre entier et non pas autre chose.");
         printf("> ");
         scanf("%s", saisieCh);
     }
 
-
     // vérification de la valeur
-    while (*var < 1 || *var > N * N) {
+    while (*var < 1 || *var > N * N)
+    {
         printErreur("Saisir un nombre entre 1 et 9.");
         printf("\n> ");
         scanf("%s", saisieCh);
 
-        while (sscanf(saisieCh, "%d", var) == 0) {
+        while (sscanf(saisieCh, "%d", var) == 0)
+        {
             printErreur("Veuillez saisir un nombre entier et non pas autre chose.");
             printf("> ");
             scanf("%s", saisieCh);
@@ -429,18 +429,17 @@ void saisir(int *var) {
     }
 }
 
-
-
 /**
  * @fn void printfCouleur(int couleurCaractere, int couleurFond, const char *format, ...)
  * @brief Impression personnalisée de texte avec des couleurs
- * 
- * @param couleurCaractere 
- * @param couleurFond 
- * @param format 
- * @param ... 
+ *
+ * @param couleurCaractere code couleur
+ * @param couleurFond code couleur
+ * @param format
+ * @param ...
  */
-void printfCouleur(int couleurCaractere, int couleurFond, const char *format, ...) {
+void printfCouleur(int couleurCaractere, int couleurFond, const char *format, ...)
+{
     char message[MAX_MSG_SIZE] = "";
 
     va_list args;
@@ -449,44 +448,38 @@ void printfCouleur(int couleurCaractere, int couleurFond, const char *format, ..
     vsnprintf(message, MAX_MSG_SIZE, format, args);
     va_end(args);
 
-    if (couleurFond == -1) {
+    if (couleurFond == -1)
+    {
         printf("\033[%dm%s\033[0m", couleurCaractere, message);
-    } else if (couleurCaractere == -1) {
+    }
+    else if (couleurCaractere == -1)
+    {
         printf("\033[%dm%s\033[0m", couleurFond, message);
-    } else {
+    }
+    else
+    {
         printf("\033[%d,%dm%s\033[0m", couleurCaractere, couleurFond, message);
     }
 }
 
 /**
- * @fn void effaceTerminal()
- * @brief Effacer la fenêtre du terminal
- * 
- */
-void effaceTerminal() {
-    #ifdef _WIN32
-    system("cls");
-    #elif defined(__unix__) || defined(__APPLE__)
-    system("clear");
-    #endif
-}
-
-/**
  * @fn void printErreur(char message[])
- * @brief Affiche une erreur 
- * 
- * @param message 
+ * @brief Affiche une erreur
+ *
+ * @param message
  */
-void printErreur(char message[]) {
+void printErreur(char message[])
+{
     printfCouleur(RED_FG, -1, "\n%s\n\n", message);
 }
 
 /**
  * @fn void printSucces(char message[])
- * @brief Affiche un succes 
- * 
- * @param message 
+ * @brief Affiche un succes
+ *
+ * @param message
  */
-void printSucces(char message[]) {
+void printSucces(char message[])
+{
     printfCouleur(GREEN_FG, -1, "\n%s\n\n", message);
 }

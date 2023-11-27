@@ -1,4 +1,4 @@
-# Helper function 
+# Fonctions d'aide 
 
 
 ## tCase n°1
@@ -48,7 +48,7 @@ fonction estCandidat( entF laCase : tCase1, entF val : entier) délivre booléen
 
         i := 0;
         resultat := FAUX;
-        tant que i < laCase.nbCandidat AND laCase[i] != val faire
+        tant que i < laCase.nbCandidat AND laCase.candidats[i] != val faire
             i++;
         finfaire
 
@@ -107,3 +107,14 @@ fonction nbCandidats(entF laCase : tCase1) délivre entier
     fin
 ```
 
+## Fonction stats
+
+```pseudo-code
+fonction afficherStats(entF nbCaseVidesInitial: entier, entF nbCaseVidesFinal : entier, entF nbCaseRempli : entier,entF nbCandidatEliminé : entier) délivre entier
+    début
+        affiche(nbCaseRempli);
+        affiche(nbCaseRempli / nbCaseVidesInitial * 100);
+        affiche(nbCandidatEliminé);
+        affiche(nbCandidatEliminé / nbCaseVidesInitial * 100);
+    fin
+```

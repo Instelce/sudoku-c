@@ -61,6 +61,10 @@ void printfCouleur(int couleurCaractere, int couleurFond, const char *format, ..
 void printErreur(char message[]);
 void printSucces(char message[]);
 
+int nbElementsLigne(t_grille g, int lig);
+int nbElementsColonne(t_grille g, int col);
+
+
 // -------------------------------------------------------------------------
 // Programme principal
 // -------------------------------------------------------------------------
@@ -167,7 +171,7 @@ void afficherGrille(t_grille grille)
             for (int colonne = 0; colonne < TAILLE; colonne++)
             {
                 printf(" %d ", colonne + 1);
-                if (colonne % 3 == 2)
+                if (colonne % N == N - 1)
                 {
                     printf(" ");
                 }
@@ -199,18 +203,29 @@ void afficherGrille(t_grille grille)
                 }
             }
 
-            if (colonne % 3 == 2)
+            if (colonne % N == N - 1)
             {
                 printf("%c", GRILLE_VERTICAL_SEP_CHAR);
             }
+
         }
+        printf(" (%d)", nbElementsLigne(grille, ligne));
 
         printf("\n");
-        if (ligne % 3 == 2 || ligne == TAILLE - 1)
+        if (ligne % N == N - 1 || ligne == TAILLE - 1)
         {
             afficheLigneTiret(ligne);
         }
     }
+    printf("   ");
+    for (int col = 0; col < TAILLE; col++) {
+        printf("(%d)", nbElementsColonne(grille, col));
+        if (col % N == N - 1)
+        {
+            printf(" ");
+        }
+    }
+    printf("\n");
 }
 
 /**
@@ -220,21 +235,14 @@ void afficherGrille(t_grille grille)
  */
 void afficheLigneTiret()
 {
-    printf("  ");
-    for (int colonne = 0; colonne < TAILLE; colonne++)
+    printf("  %c", GRILLE_COIN_CHAR);
+    for (int colonne = 0; colonne < N; colonne++)
     {
-        if (colonne == TAILLE - 1)
+        for (int col = 0; col < 3 * N; col++)
         {
-            printf("%c%c%c%c%c", GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_COIN_CHAR);
+            printf("%c", GRILLE_HORIZONTAL_SEP_CHAR);
         }
-        else if (colonne % 3 == 0)
-        {
-            printf("%c%c", GRILLE_COIN_CHAR, GRILLE_HORIZONTAL_SEP_CHAR);
-        }
-        else
-        {
-            printf("%c%c%c%c", GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR, GRILLE_HORIZONTAL_SEP_CHAR);
-        }
+        printf("%c", GRILLE_COIN_CHAR);
     }
     printf("\n");
 }
@@ -286,6 +294,28 @@ bool possibleLigne(t_grille grille, int ligneIndice, int valeur)
 }
 
 /**
+ * @brief Compte le nombre de case rempli présent dans une ligne
+ * 
+ * @param g 
+ * @param lig 
+ * @return int 
+ */
+int nbElementsLigne(t_grille g, int lig) {
+    int count;
+
+    count = 0;
+    for (int col = 0; col < TAILLE; col++)
+    {
+        if (g[lig][col]!= CASE_VIDE)
+        {
+            count++;
+        }
+    }
+
+    return count;
+}
+
+/**
  * @fn bool possibleColonne(t_grille grille, int colonneIndice, int valeur)
  * @brief Retourne un booleen selon si la valeur est présente dans la colonne de la grille
  *
@@ -305,6 +335,29 @@ bool possibleColonne(t_grille grille, int colonneIndice, int valeur)
     }
 
     return true;
+}
+
+
+/**
+ * @brief Compte le nombre de case rempli présent dans une colonne
+ * 
+ * @param g 
+ * @param col 
+ * @return int 
+ */
+int nbElementsColonne(t_grille g, int col) {
+    int count;
+
+    count = 0;
+    for (int lig = 0; lig < TAILLE; lig++)
+    {
+        if (g[lig][col]!= CASE_VIDE)
+        {
+            count++;
+        }
+    }
+
+    return count;
 }
 
 /**

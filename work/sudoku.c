@@ -39,6 +39,11 @@
 // Type
 // -------------------------------------------------------------------------
 
+/**
+ * @typedef int t_grille[TAILLE][TAILLE]
+ * @brief type matrice de taille TAILLE * TAILLE
+ * 
+ */
 typedef int t_grille[TAILLE][TAILLE];
 
 // -------------------------------------------------------------------------
@@ -69,6 +74,11 @@ int nbElementsColonne(t_grille g, int col);
 // Programme principal
 // -------------------------------------------------------------------------
 
+/**
+ * @brief Programme principal du sudoku
+ * 
+ * @return int 
+ */
 int main()
 {
     t_grille grilleSudoku;

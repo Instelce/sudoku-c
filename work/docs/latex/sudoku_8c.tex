@@ -1,0 +1,450 @@
+\doxysection{Référence du fichier sudoku.\+c}
+\hypertarget{sudoku_8c}{}\label{sudoku_8c}\index{sudoku.c@{sudoku.c}}
+
+
+Fichier du jeu sodoku.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdarg.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a59318f63f43f22891fea4f4e6dc4f306}{CASE\+\_\+\+VIDE}}~0
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_adb7f8c0a2fa311229a104248cb8e81d4}{GREEN\+\_\+\+FG}}~32
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a7e1fb20209d6f3d4d403fd0fc8e6bd6b}{GRILLE\+\_\+\+CASE\+\_\+\+VIDE\+\_\+\+CHAR}}~\textquotesingle{}.\textquotesingle{}
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a449e3813fbbd1e03bb7a80638c825d78}{GRILLE\+\_\+\+COIN\+\_\+\+CHAR}}~\textquotesingle{}+\textquotesingle{}
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a46e55f333ea42343745eb6ad00d95349}{GRILLE\+\_\+\+HORIZONTAL\+\_\+\+SEP\+\_\+\+CHAR}}~\textquotesingle{}-\/\textquotesingle{}
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a933d48e3e63c9982abfac980fb564d93}{GRILLE\+\_\+\+VERTICAL\+\_\+\+SEP\+\_\+\+CHAR}}~\textquotesingle{}\texorpdfstring{$\vert$}{|}\textquotesingle{}
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a17e333794ae761cd55ec6fd6fc0f1bac}{MAX\+\_\+\+MSG\+\_\+\+SIZE}}~500
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a99c609ff6b93e04a7a94562301e4a81d}{MAX\+\_\+\+SAISIE\+\_\+\+SIZE}}~500
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a0240ac851181b84ac374872dc5434ee4}{N}}~3
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a879ec990e589a8e9f5a119c760605a73}{RED\+\_\+\+FG}}~31
+\item 
+\#define \mbox{\hyperlink{sudoku_8c_a7b29335add3a553ed85d0e3ace85629c}{TAILLE}}~9
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Définitions de type}
+\begin{DoxyCompactItemize}
+\item 
+typedef int \mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}\mbox{[}\mbox{\hyperlink{sudoku_8c_a7b29335add3a553ed85d0e3ace85629c}{TAILLE}}\mbox{]}\mbox{[}\mbox{\hyperlink{sudoku_8c_a7b29335add3a553ed85d0e3ace85629c}{TAILLE}}\mbox{]}
+\begin{DoxyCompactList}\small\item\em type matrice de taille TAILLE \texorpdfstring{$\ast$}{*} TAILLE \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Fonctions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{sudoku_8c_a182c6578d0a61d0d0f528b2a0768e01d}{affiche\+Ligne\+Tiret}} ()
+\begin{DoxyCompactList}\small\item\em Affiche une ligne de tiret, est utilisé dans la fonction affiche\+Grille. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{sudoku_8c_a94f311bb3e1da5d8ac75150d0f3fe806}{afficher\+Grille}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} grille)
+\begin{DoxyCompactList}\small\item\em Affichage personalisé de la grille. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{sudoku_8c_a31d64c0db64e3fb6f6558a0046d4d08d}{charger\+Grille}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} grille)
+\begin{DoxyCompactList}\small\item\em Charge les valeurs d\textquotesingle{}un grille a partir d\textquotesingle{}un nom de fichier. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{sudoku_8c_adb4d7e87baea5547b2e11238dcf4ed95}{grille\+Rempli}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} grille)
+\begin{DoxyCompactList}\small\item\em Retourne un booleen selon si la grille est rempli ou non. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{sudoku_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Programme principal du sudoku. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{sudoku_8c_ac5750e2ebe4ef27bc89005680e827783}{nb\+Elements\+Colonne}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} g, int col)
+\begin{DoxyCompactList}\small\item\em Compte le nombre de case rempli présent dans une colonne. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{sudoku_8c_a4ef12c19a8bee68e190695eb0cf2ffe8}{nb\+Elements\+Ligne}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} g, int lig)
+\begin{DoxyCompactList}\small\item\em Compte le nombre de case rempli présent dans une ligne. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{sudoku_8c_aa7e7eb4bb01bad4f4a300c85ebf14081}{possible}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} grille, int num\+Ligne, int num\+Colonne, int valeur)
+\begin{DoxyCompactList}\small\item\em Retourne vrai si la valeur au coordonné passé en paramètre n\textquotesingle{}existe pas dans la ligne, la colonne ou le block, et faux si c\textquotesingle{}est l\textquotesingle{}inverse. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{sudoku_8c_a614765a976c6410f9d0352e7084a4e0e}{possible\+Bloc}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} grille, int debut\+Bloc\+Ligne, int debut\+Bloc\+Colonne, int valeur)
+\begin{DoxyCompactList}\small\item\em Retourne un booleen selon si la valeur est présente dans la colonne de la grille. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{sudoku_8c_a8dcc6db413c3bbea58c9ac89af4e28e4}{possible\+Colonne}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} grille, int colonne\+Indice, int valeur)
+\begin{DoxyCompactList}\small\item\em Retourne un booleen selon si la valeur est présente dans la colonne de la grille. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{sudoku_8c_a3ec42de684e23b770918bed694245354}{possible\+Ligne}} (\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}} grille, int ligne\+Indice, int valeur)
+\begin{DoxyCompactList}\small\item\em Retourne un booleen selon si la valeur est présente dans la ligne de la grille. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{sudoku_8c_af671dfc2a884bbd0fd5659e501f4f551}{print\+Erreur}} (char message\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Affiche une erreur. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{sudoku_8c_aa688f7398a6e656bc522b2fdab53e397}{printf\+Couleur}} (int couleur\+Caractere, int couleur\+Fond, const char \texorpdfstring{$\ast$}{*}format,...)
+\begin{DoxyCompactList}\small\item\em Impression personnalisée de texte avec des couleurs. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{sudoku_8c_a2daae591d9c83f7d8a44b8b1876e0b3d}{print\+Succes}} (char message\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Affiche un succes. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{sudoku_8c_a918723b21d57a7fa1f85353f601ef195}{saisir}} (int \texorpdfstring{$\ast$}{*}var)
+\begin{DoxyCompactList}\small\item\em Permet de saisir et de vérifier une valeur. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Description détaillée}
+Fichier du jeu sodoku. 
+
+\begin{DoxyAuthor}{Auteur}
+Célestin Besson 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/10-\/25 to...
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Copyright (c) 2023 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Documentation des macros}
+\Hypertarget{sudoku_8c_a59318f63f43f22891fea4f4e6dc4f306}\label{sudoku_8c_a59318f63f43f22891fea4f4e6dc4f306} 
+\index{sudoku.c@{sudoku.c}!CASE\_VIDE@{CASE\_VIDE}}
+\index{CASE\_VIDE@{CASE\_VIDE}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{CASE\_VIDE}{CASE\_VIDE}}
+{\footnotesize\ttfamily \#define CASE\+\_\+\+VIDE~0}
+
+\Hypertarget{sudoku_8c_adb7f8c0a2fa311229a104248cb8e81d4}\label{sudoku_8c_adb7f8c0a2fa311229a104248cb8e81d4} 
+\index{sudoku.c@{sudoku.c}!GREEN\_FG@{GREEN\_FG}}
+\index{GREEN\_FG@{GREEN\_FG}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{GREEN\_FG}{GREEN\_FG}}
+{\footnotesize\ttfamily \#define GREEN\+\_\+\+FG~32}
+
+\Hypertarget{sudoku_8c_a7e1fb20209d6f3d4d403fd0fc8e6bd6b}\label{sudoku_8c_a7e1fb20209d6f3d4d403fd0fc8e6bd6b} 
+\index{sudoku.c@{sudoku.c}!GRILLE\_CASE\_VIDE\_CHAR@{GRILLE\_CASE\_VIDE\_CHAR}}
+\index{GRILLE\_CASE\_VIDE\_CHAR@{GRILLE\_CASE\_VIDE\_CHAR}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{GRILLE\_CASE\_VIDE\_CHAR}{GRILLE\_CASE\_VIDE\_CHAR}}
+{\footnotesize\ttfamily \#define GRILLE\+\_\+\+CASE\+\_\+\+VIDE\+\_\+\+CHAR~\textquotesingle{}.\textquotesingle{}}
+
+\Hypertarget{sudoku_8c_a449e3813fbbd1e03bb7a80638c825d78}\label{sudoku_8c_a449e3813fbbd1e03bb7a80638c825d78} 
+\index{sudoku.c@{sudoku.c}!GRILLE\_COIN\_CHAR@{GRILLE\_COIN\_CHAR}}
+\index{GRILLE\_COIN\_CHAR@{GRILLE\_COIN\_CHAR}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{GRILLE\_COIN\_CHAR}{GRILLE\_COIN\_CHAR}}
+{\footnotesize\ttfamily \#define GRILLE\+\_\+\+COIN\+\_\+\+CHAR~\textquotesingle{}+\textquotesingle{}}
+
+\Hypertarget{sudoku_8c_a46e55f333ea42343745eb6ad00d95349}\label{sudoku_8c_a46e55f333ea42343745eb6ad00d95349} 
+\index{sudoku.c@{sudoku.c}!GRILLE\_HORIZONTAL\_SEP\_CHAR@{GRILLE\_HORIZONTAL\_SEP\_CHAR}}
+\index{GRILLE\_HORIZONTAL\_SEP\_CHAR@{GRILLE\_HORIZONTAL\_SEP\_CHAR}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{GRILLE\_HORIZONTAL\_SEP\_CHAR}{GRILLE\_HORIZONTAL\_SEP\_CHAR}}
+{\footnotesize\ttfamily \#define GRILLE\+\_\+\+HORIZONTAL\+\_\+\+SEP\+\_\+\+CHAR~\textquotesingle{}-\/\textquotesingle{}}
+
+\Hypertarget{sudoku_8c_a933d48e3e63c9982abfac980fb564d93}\label{sudoku_8c_a933d48e3e63c9982abfac980fb564d93} 
+\index{sudoku.c@{sudoku.c}!GRILLE\_VERTICAL\_SEP\_CHAR@{GRILLE\_VERTICAL\_SEP\_CHAR}}
+\index{GRILLE\_VERTICAL\_SEP\_CHAR@{GRILLE\_VERTICAL\_SEP\_CHAR}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{GRILLE\_VERTICAL\_SEP\_CHAR}{GRILLE\_VERTICAL\_SEP\_CHAR}}
+{\footnotesize\ttfamily \#define GRILLE\+\_\+\+VERTICAL\+\_\+\+SEP\+\_\+\+CHAR~\textquotesingle{}\texorpdfstring{$\vert$}{|}\textquotesingle{}}
+
+\Hypertarget{sudoku_8c_a17e333794ae761cd55ec6fd6fc0f1bac}\label{sudoku_8c_a17e333794ae761cd55ec6fd6fc0f1bac} 
+\index{sudoku.c@{sudoku.c}!MAX\_MSG\_SIZE@{MAX\_MSG\_SIZE}}
+\index{MAX\_MSG\_SIZE@{MAX\_MSG\_SIZE}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_MSG\_SIZE}{MAX\_MSG\_SIZE}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+MSG\+\_\+\+SIZE~500}
+
+\Hypertarget{sudoku_8c_a99c609ff6b93e04a7a94562301e4a81d}\label{sudoku_8c_a99c609ff6b93e04a7a94562301e4a81d} 
+\index{sudoku.c@{sudoku.c}!MAX\_SAISIE\_SIZE@{MAX\_SAISIE\_SIZE}}
+\index{MAX\_SAISIE\_SIZE@{MAX\_SAISIE\_SIZE}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_SAISIE\_SIZE}{MAX\_SAISIE\_SIZE}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+SAISIE\+\_\+\+SIZE~500}
+
+\Hypertarget{sudoku_8c_a0240ac851181b84ac374872dc5434ee4}\label{sudoku_8c_a0240ac851181b84ac374872dc5434ee4} 
+\index{sudoku.c@{sudoku.c}!N@{N}}
+\index{N@{N}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{N}{N}}
+{\footnotesize\ttfamily \#define N~3}
+
+\Hypertarget{sudoku_8c_a879ec990e589a8e9f5a119c760605a73}\label{sudoku_8c_a879ec990e589a8e9f5a119c760605a73} 
+\index{sudoku.c@{sudoku.c}!RED\_FG@{RED\_FG}}
+\index{RED\_FG@{RED\_FG}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{RED\_FG}{RED\_FG}}
+{\footnotesize\ttfamily \#define RED\+\_\+\+FG~31}
+
+\Hypertarget{sudoku_8c_a7b29335add3a553ed85d0e3ace85629c}\label{sudoku_8c_a7b29335add3a553ed85d0e3ace85629c} 
+\index{sudoku.c@{sudoku.c}!TAILLE@{TAILLE}}
+\index{TAILLE@{TAILLE}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{TAILLE}{TAILLE}}
+{\footnotesize\ttfamily \#define TAILLE~9}
+
+
+
+\doxysubsection{Documentation des définitions de type}
+\Hypertarget{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}\label{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f} 
+\index{sudoku.c@{sudoku.c}!t\_grille@{t\_grille}}
+\index{t\_grille@{t\_grille}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{t\_grille}{t\_grille}}
+{\footnotesize\ttfamily int t\+\_\+grille\mbox{[}\mbox{\hyperlink{sudoku_8c_a7b29335add3a553ed85d0e3ace85629c}{TAILLE}}\mbox{]}\mbox{[}\mbox{\hyperlink{sudoku_8c_a7b29335add3a553ed85d0e3ace85629c}{TAILLE}}\mbox{]}}
+
+
+
+type matrice de taille TAILLE \texorpdfstring{$\ast$}{*} TAILLE 
+
+
+
+\doxysubsection{Documentation des fonctions}
+\Hypertarget{sudoku_8c_a182c6578d0a61d0d0f528b2a0768e01d}\label{sudoku_8c_a182c6578d0a61d0d0f528b2a0768e01d} 
+\index{sudoku.c@{sudoku.c}!afficheLigneTiret@{afficheLigneTiret}}
+\index{afficheLigneTiret@{afficheLigneTiret}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{afficheLigneTiret()}{afficheLigneTiret()}}
+{\footnotesize\ttfamily void affiche\+Ligne\+Tiret (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Affiche une ligne de tiret, est utilisé dans la fonction affiche\+Grille. 
+
+\Hypertarget{sudoku_8c_a94f311bb3e1da5d8ac75150d0f3fe806}\label{sudoku_8c_a94f311bb3e1da5d8ac75150d0f3fe806} 
+\index{sudoku.c@{sudoku.c}!afficherGrille@{afficherGrille}}
+\index{afficherGrille@{afficherGrille}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{afficherGrille()}{afficherGrille()}}
+{\footnotesize\ttfamily void afficher\+Grille (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{grille }\end{DoxyParamCaption})}
+
+
+
+Affichage personalisé de la grille. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em grille} & t\+\_\+grille grille a afficher \\
+\hline
+\end{DoxyParams}
+\Hypertarget{sudoku_8c_a31d64c0db64e3fb6f6558a0046d4d08d}\label{sudoku_8c_a31d64c0db64e3fb6f6558a0046d4d08d} 
+\index{sudoku.c@{sudoku.c}!chargerGrille@{chargerGrille}}
+\index{chargerGrille@{chargerGrille}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{chargerGrille()}{chargerGrille()}}
+{\footnotesize\ttfamily void charger\+Grille (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{grille }\end{DoxyParamCaption})}
+
+
+
+Charge les valeurs d\textquotesingle{}un grille a partir d\textquotesingle{}un nom de fichier. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em grille} & t\+\_\+grille grille a charger \\
+\hline
+\end{DoxyParams}
+\Hypertarget{sudoku_8c_adb4d7e87baea5547b2e11238dcf4ed95}\label{sudoku_8c_adb4d7e87baea5547b2e11238dcf4ed95} 
+\index{sudoku.c@{sudoku.c}!grilleRempli@{grilleRempli}}
+\index{grilleRempli@{grilleRempli}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{grilleRempli()}{grilleRempli()}}
+{\footnotesize\ttfamily bool grille\+Rempli (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{grille }\end{DoxyParamCaption})}
+
+
+
+Retourne un booleen selon si la grille est rempli ou non. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em grille} & t\+\_\+grile \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+true 
+
+false 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}\label{sudoku_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+\index{sudoku.c@{sudoku.c}!main@{main}}
+\index{main@{main}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Programme principal du sudoku. 
+
+\begin{DoxyReturn}{Renvoie}
+int 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_ac5750e2ebe4ef27bc89005680e827783}\label{sudoku_8c_ac5750e2ebe4ef27bc89005680e827783} 
+\index{sudoku.c@{sudoku.c}!nbElementsColonne@{nbElementsColonne}}
+\index{nbElementsColonne@{nbElementsColonne}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{nbElementsColonne()}{nbElementsColonne()}}
+{\footnotesize\ttfamily int nb\+Elements\+Colonne (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{g,  }\item[{int}]{col }\end{DoxyParamCaption})}
+
+
+
+Compte le nombre de case rempli présent dans une colonne. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em g} & \\
+\hline
+{\em col} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_a4ef12c19a8bee68e190695eb0cf2ffe8}\label{sudoku_8c_a4ef12c19a8bee68e190695eb0cf2ffe8} 
+\index{sudoku.c@{sudoku.c}!nbElementsLigne@{nbElementsLigne}}
+\index{nbElementsLigne@{nbElementsLigne}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{nbElementsLigne()}{nbElementsLigne()}}
+{\footnotesize\ttfamily int nb\+Elements\+Ligne (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{g,  }\item[{int}]{lig }\end{DoxyParamCaption})}
+
+
+
+Compte le nombre de case rempli présent dans une ligne. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em g} & \\
+\hline
+{\em lig} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_aa7e7eb4bb01bad4f4a300c85ebf14081}\label{sudoku_8c_aa7e7eb4bb01bad4f4a300c85ebf14081} 
+\index{sudoku.c@{sudoku.c}!possible@{possible}}
+\index{possible@{possible}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{possible()}{possible()}}
+{\footnotesize\ttfamily bool possible (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{grille,  }\item[{int}]{num\+Ligne,  }\item[{int}]{num\+Colonne,  }\item[{int}]{valeur }\end{DoxyParamCaption})}
+
+
+
+Retourne vrai si la valeur au coordonné passé en paramètre n\textquotesingle{}existe pas dans la ligne, la colonne ou le block, et faux si c\textquotesingle{}est l\textquotesingle{}inverse. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em grille} & \\
+\hline
+{\em num\+Ligne} & \\
+\hline
+{\em num\+Colonne} & \\
+\hline
+{\em valeur} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+true 
+
+false 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_a614765a976c6410f9d0352e7084a4e0e}\label{sudoku_8c_a614765a976c6410f9d0352e7084a4e0e} 
+\index{sudoku.c@{sudoku.c}!possibleBloc@{possibleBloc}}
+\index{possibleBloc@{possibleBloc}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{possibleBloc()}{possibleBloc()}}
+{\footnotesize\ttfamily bool possible\+Bloc (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{grille,  }\item[{int}]{debut\+Bloc\+Ligne,  }\item[{int}]{debut\+Bloc\+Colonne,  }\item[{int}]{valeur }\end{DoxyParamCaption})}
+
+
+
+Retourne un booleen selon si la valeur est présente dans la colonne de la grille. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em grille} & \\
+\hline
+{\em debut\+Bloc\+Ligne} & \\
+\hline
+{\em debut\+Bloc\+Colonne} & \\
+\hline
+{\em valeur} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_a8dcc6db413c3bbea58c9ac89af4e28e4}\label{sudoku_8c_a8dcc6db413c3bbea58c9ac89af4e28e4} 
+\index{sudoku.c@{sudoku.c}!possibleColonne@{possibleColonne}}
+\index{possibleColonne@{possibleColonne}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{possibleColonne()}{possibleColonne()}}
+{\footnotesize\ttfamily bool possible\+Colonne (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{grille,  }\item[{int}]{colonne\+Indice,  }\item[{int}]{valeur }\end{DoxyParamCaption})}
+
+
+
+Retourne un booleen selon si la valeur est présente dans la colonne de la grille. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em grille} & t\+\_\+grille \\
+\hline
+{\em colonne\+Indice} & int \\
+\hline
+{\em valeur} & int \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_a3ec42de684e23b770918bed694245354}\label{sudoku_8c_a3ec42de684e23b770918bed694245354} 
+\index{sudoku.c@{sudoku.c}!possibleLigne@{possibleLigne}}
+\index{possibleLigne@{possibleLigne}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{possibleLigne()}{possibleLigne()}}
+{\footnotesize\ttfamily bool possible\+Ligne (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{sudoku_8c_a8c22cc7b780b5bd967e61ce59042e04f}{t\+\_\+grille}}}]{grille,  }\item[{int}]{ligne\+Indice,  }\item[{int}]{valeur }\end{DoxyParamCaption})}
+
+
+
+Retourne un booleen selon si la valeur est présente dans la ligne de la grille. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em grille} & t\+\_\+grille \\
+\hline
+{\em ligne\+Indice} & int \\
+\hline
+{\em valeur} & int \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Renvoie}
+int 
+\end{DoxyReturn}
+\Hypertarget{sudoku_8c_af671dfc2a884bbd0fd5659e501f4f551}\label{sudoku_8c_af671dfc2a884bbd0fd5659e501f4f551} 
+\index{sudoku.c@{sudoku.c}!printErreur@{printErreur}}
+\index{printErreur@{printErreur}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{printErreur()}{printErreur()}}
+{\footnotesize\ttfamily void print\+Erreur (\begin{DoxyParamCaption}\item[{char}]{message\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Affiche une erreur. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{sudoku_8c_aa688f7398a6e656bc522b2fdab53e397}\label{sudoku_8c_aa688f7398a6e656bc522b2fdab53e397} 
+\index{sudoku.c@{sudoku.c}!printfCouleur@{printfCouleur}}
+\index{printfCouleur@{printfCouleur}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{printfCouleur()}{printfCouleur()}}
+{\footnotesize\ttfamily void printf\+Couleur (\begin{DoxyParamCaption}\item[{int}]{couleur\+Caractere,  }\item[{int}]{couleur\+Fond,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Impression personnalisée de texte avec des couleurs. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em couleur\+Caractere} & code couleur \\
+\hline
+{\em couleur\+Fond} & code couleur \\
+\hline
+{\em format} & \\
+\hline
+{\em ...} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{sudoku_8c_a2daae591d9c83f7d8a44b8b1876e0b3d}\label{sudoku_8c_a2daae591d9c83f7d8a44b8b1876e0b3d} 
+\index{sudoku.c@{sudoku.c}!printSucces@{printSucces}}
+\index{printSucces@{printSucces}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{printSucces()}{printSucces()}}
+{\footnotesize\ttfamily void print\+Succes (\begin{DoxyParamCaption}\item[{char}]{message\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+
+
+Affiche un succes. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em message} & \\
+\hline
+\end{DoxyParams}
+\Hypertarget{sudoku_8c_a918723b21d57a7fa1f85353f601ef195}\label{sudoku_8c_a918723b21d57a7fa1f85353f601ef195} 
+\index{sudoku.c@{sudoku.c}!saisir@{saisir}}
+\index{saisir@{saisir}!sudoku.c@{sudoku.c}}
+\doxysubsubsection{\texorpdfstring{saisir()}{saisir()}}
+{\footnotesize\ttfamily void saisir (\begin{DoxyParamCaption}\item[{int \texorpdfstring{$\ast$}{*}}]{var }\end{DoxyParamCaption})}
+
+
+
+Permet de saisir et de vérifier une valeur. 
+
+
+\begin{DoxyParams}{Paramètres}
+{\em var} & variable affecté \\
+\hline
+\end{DoxyParams}

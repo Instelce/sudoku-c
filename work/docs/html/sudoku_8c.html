@@ -1,0 +1,874 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Sudoku: Référence du fichier sudoku.c</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Sudoku<span id="projectnumber">&#160;1</span>
+   </div>
+   <div id="projectbrief">Documentation du jeu de sudoku</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Généré par Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Recherche');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Chargement...</div>
+<div class="SRStatus" id="Searching">Recherche...</div>
+<div class="SRStatus" id="NoMatches">Aucune correspondance</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Définitions de type</a> &#124;
+<a href="#func-members">Fonctions</a>  </div>
+  <div class="headertitle"><div class="title">Référence du fichier sudoku.c</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Fichier du jeu sodoku.  
+<a href="#details">Plus de détails...</a></p>
+<div class="textblock"><code>#include &lt;stdio.h&gt;</code><br />
+<code>#include &lt;stdlib.h&gt;</code><br />
+<code>#include &lt;string.h&gt;</code><br />
+<code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;stdarg.h&gt;</code><br />
+</div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a59318f63f43f22891fea4f4e6dc4f306" id="r_a59318f63f43f22891fea4f4e6dc4f306"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a59318f63f43f22891fea4f4e6dc4f306">CASE_VIDE</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a59318f63f43f22891fea4f4e6dc4f306"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb7f8c0a2fa311229a104248cb8e81d4" id="r_adb7f8c0a2fa311229a104248cb8e81d4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#adb7f8c0a2fa311229a104248cb8e81d4">GREEN_FG</a>&#160;&#160;&#160;32</td></tr>
+<tr class="separator:adb7f8c0a2fa311229a104248cb8e81d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e1fb20209d6f3d4d403fd0fc8e6bd6b" id="r_a7e1fb20209d6f3d4d403fd0fc8e6bd6b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a7e1fb20209d6f3d4d403fd0fc8e6bd6b">GRILLE_CASE_VIDE_CHAR</a>&#160;&#160;&#160;'.'</td></tr>
+<tr class="separator:a7e1fb20209d6f3d4d403fd0fc8e6bd6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a449e3813fbbd1e03bb7a80638c825d78" id="r_a449e3813fbbd1e03bb7a80638c825d78"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a449e3813fbbd1e03bb7a80638c825d78">GRILLE_COIN_CHAR</a>&#160;&#160;&#160;'+'</td></tr>
+<tr class="separator:a449e3813fbbd1e03bb7a80638c825d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46e55f333ea42343745eb6ad00d95349" id="r_a46e55f333ea42343745eb6ad00d95349"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a46e55f333ea42343745eb6ad00d95349">GRILLE_HORIZONTAL_SEP_CHAR</a>&#160;&#160;&#160;'-'</td></tr>
+<tr class="separator:a46e55f333ea42343745eb6ad00d95349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a933d48e3e63c9982abfac980fb564d93" id="r_a933d48e3e63c9982abfac980fb564d93"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a933d48e3e63c9982abfac980fb564d93">GRILLE_VERTICAL_SEP_CHAR</a>&#160;&#160;&#160;'|'</td></tr>
+<tr class="separator:a933d48e3e63c9982abfac980fb564d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e333794ae761cd55ec6fd6fc0f1bac" id="r_a17e333794ae761cd55ec6fd6fc0f1bac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a17e333794ae761cd55ec6fd6fc0f1bac">MAX_MSG_SIZE</a>&#160;&#160;&#160;500</td></tr>
+<tr class="separator:a17e333794ae761cd55ec6fd6fc0f1bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99c609ff6b93e04a7a94562301e4a81d" id="r_a99c609ff6b93e04a7a94562301e4a81d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a99c609ff6b93e04a7a94562301e4a81d">MAX_SAISIE_SIZE</a>&#160;&#160;&#160;500</td></tr>
+<tr class="separator:a99c609ff6b93e04a7a94562301e4a81d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0240ac851181b84ac374872dc5434ee4" id="r_a0240ac851181b84ac374872dc5434ee4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a0240ac851181b84ac374872dc5434ee4">N</a>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:a0240ac851181b84ac374872dc5434ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a879ec990e589a8e9f5a119c760605a73" id="r_a879ec990e589a8e9f5a119c760605a73"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a879ec990e589a8e9f5a119c760605a73">RED_FG</a>&#160;&#160;&#160;31</td></tr>
+<tr class="separator:a879ec990e589a8e9f5a119c760605a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b29335add3a553ed85d0e3ace85629c" id="r_a7b29335add3a553ed85d0e3ace85629c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a7b29335add3a553ed85d0e3ace85629c">TAILLE</a>&#160;&#160;&#160;9</td></tr>
+<tr class="separator:a7b29335add3a553ed85d0e3ace85629c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Définitions de type</h2></td></tr>
+<tr class="memitem:a8c22cc7b780b5bd967e61ce59042e04f" id="r_a8c22cc7b780b5bd967e61ce59042e04f"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>[<a class="el" href="sudoku_8c.html#a7b29335add3a553ed85d0e3ace85629c">TAILLE</a>][<a class="el" href="sudoku_8c.html#a7b29335add3a553ed85d0e3ace85629c">TAILLE</a>]</td></tr>
+<tr class="memdesc:a8c22cc7b780b5bd967e61ce59042e04f"><td class="mdescLeft">&#160;</td><td class="mdescRight">type matrice de taille TAILLE * TAILLE  <br /></td></tr>
+<tr class="separator:a8c22cc7b780b5bd967e61ce59042e04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Fonctions</h2></td></tr>
+<tr class="memitem:a182c6578d0a61d0d0f528b2a0768e01d" id="r_a182c6578d0a61d0d0f528b2a0768e01d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a182c6578d0a61d0d0f528b2a0768e01d">afficheLigneTiret</a> ()</td></tr>
+<tr class="memdesc:a182c6578d0a61d0d0f528b2a0768e01d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche une ligne de tiret, est utilisé dans la fonction afficheGrille.  <br /></td></tr>
+<tr class="separator:a182c6578d0a61d0d0f528b2a0768e01d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94f311bb3e1da5d8ac75150d0f3fe806" id="r_a94f311bb3e1da5d8ac75150d0f3fe806"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a94f311bb3e1da5d8ac75150d0f3fe806">afficherGrille</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> grille)</td></tr>
+<tr class="memdesc:a94f311bb3e1da5d8ac75150d0f3fe806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affichage personalisé de la grille.  <br /></td></tr>
+<tr class="separator:a94f311bb3e1da5d8ac75150d0f3fe806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31d64c0db64e3fb6f6558a0046d4d08d" id="r_a31d64c0db64e3fb6f6558a0046d4d08d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a31d64c0db64e3fb6f6558a0046d4d08d">chargerGrille</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> grille)</td></tr>
+<tr class="memdesc:a31d64c0db64e3fb6f6558a0046d4d08d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les valeurs d'un grille a partir d'un nom de fichier.  <br /></td></tr>
+<tr class="separator:a31d64c0db64e3fb6f6558a0046d4d08d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb4d7e87baea5547b2e11238dcf4ed95" id="r_adb4d7e87baea5547b2e11238dcf4ed95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#adb4d7e87baea5547b2e11238dcf4ed95">grilleRempli</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> grille)</td></tr>
+<tr class="memdesc:adb4d7e87baea5547b2e11238dcf4ed95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne un booleen selon si la grille est rempli ou non.  <br /></td></tr>
+<tr class="separator:adb4d7e87baea5547b2e11238dcf4ed95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
+<tr class="memdesc:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Programme principal du sudoku.  <br /></td></tr>
+<tr class="separator:ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5750e2ebe4ef27bc89005680e827783" id="r_ac5750e2ebe4ef27bc89005680e827783"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#ac5750e2ebe4ef27bc89005680e827783">nbElementsColonne</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> g, int col)</td></tr>
+<tr class="memdesc:ac5750e2ebe4ef27bc89005680e827783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compte le nombre de case rempli présent dans une colonne.  <br /></td></tr>
+<tr class="separator:ac5750e2ebe4ef27bc89005680e827783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ef12c19a8bee68e190695eb0cf2ffe8" id="r_a4ef12c19a8bee68e190695eb0cf2ffe8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a4ef12c19a8bee68e190695eb0cf2ffe8">nbElementsLigne</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> g, int lig)</td></tr>
+<tr class="memdesc:a4ef12c19a8bee68e190695eb0cf2ffe8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compte le nombre de case rempli présent dans une ligne.  <br /></td></tr>
+<tr class="separator:a4ef12c19a8bee68e190695eb0cf2ffe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7e7eb4bb01bad4f4a300c85ebf14081" id="r_aa7e7eb4bb01bad4f4a300c85ebf14081"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#aa7e7eb4bb01bad4f4a300c85ebf14081">possible</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> grille, int numLigne, int numColonne, int valeur)</td></tr>
+<tr class="memdesc:aa7e7eb4bb01bad4f4a300c85ebf14081"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne vrai si la valeur au coordonné passé en paramètre n'existe pas dans la ligne, la colonne ou le block, et faux si c'est l'inverse.  <br /></td></tr>
+<tr class="separator:aa7e7eb4bb01bad4f4a300c85ebf14081"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a614765a976c6410f9d0352e7084a4e0e" id="r_a614765a976c6410f9d0352e7084a4e0e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a614765a976c6410f9d0352e7084a4e0e">possibleBloc</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> grille, int debutBlocLigne, int debutBlocColonne, int valeur)</td></tr>
+<tr class="memdesc:a614765a976c6410f9d0352e7084a4e0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne un booleen selon si la valeur est présente dans la colonne de la grille.  <br /></td></tr>
+<tr class="separator:a614765a976c6410f9d0352e7084a4e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dcc6db413c3bbea58c9ac89af4e28e4" id="r_a8dcc6db413c3bbea58c9ac89af4e28e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a8dcc6db413c3bbea58c9ac89af4e28e4">possibleColonne</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> grille, int colonneIndice, int valeur)</td></tr>
+<tr class="memdesc:a8dcc6db413c3bbea58c9ac89af4e28e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne un booleen selon si la valeur est présente dans la colonne de la grille.  <br /></td></tr>
+<tr class="separator:a8dcc6db413c3bbea58c9ac89af4e28e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ec42de684e23b770918bed694245354" id="r_a3ec42de684e23b770918bed694245354"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a3ec42de684e23b770918bed694245354">possibleLigne</a> (<a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a> grille, int ligneIndice, int valeur)</td></tr>
+<tr class="memdesc:a3ec42de684e23b770918bed694245354"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retourne un booleen selon si la valeur est présente dans la ligne de la grille.  <br /></td></tr>
+<tr class="separator:a3ec42de684e23b770918bed694245354"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af671dfc2a884bbd0fd5659e501f4f551" id="r_af671dfc2a884bbd0fd5659e501f4f551"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#af671dfc2a884bbd0fd5659e501f4f551">printErreur</a> (char message[])</td></tr>
+<tr class="memdesc:af671dfc2a884bbd0fd5659e501f4f551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche une erreur.  <br /></td></tr>
+<tr class="separator:af671dfc2a884bbd0fd5659e501f4f551"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa688f7398a6e656bc522b2fdab53e397" id="r_aa688f7398a6e656bc522b2fdab53e397"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#aa688f7398a6e656bc522b2fdab53e397">printfCouleur</a> (int couleurCaractere, int couleurFond, const char *format,...)</td></tr>
+<tr class="memdesc:aa688f7398a6e656bc522b2fdab53e397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Impression personnalisée de texte avec des couleurs.  <br /></td></tr>
+<tr class="separator:aa688f7398a6e656bc522b2fdab53e397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2daae591d9c83f7d8a44b8b1876e0b3d" id="r_a2daae591d9c83f7d8a44b8b1876e0b3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a2daae591d9c83f7d8a44b8b1876e0b3d">printSucces</a> (char message[])</td></tr>
+<tr class="memdesc:a2daae591d9c83f7d8a44b8b1876e0b3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche un succes.  <br /></td></tr>
+<tr class="separator:a2daae591d9c83f7d8a44b8b1876e0b3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a918723b21d57a7fa1f85353f601ef195" id="r_a918723b21d57a7fa1f85353f601ef195"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="sudoku_8c.html#a918723b21d57a7fa1f85353f601ef195">saisir</a> (int *var)</td></tr>
+<tr class="memdesc:a918723b21d57a7fa1f85353f601ef195"><td class="mdescLeft">&#160;</td><td class="mdescRight">Permet de saisir et de vérifier une valeur.  <br /></td></tr>
+<tr class="separator:a918723b21d57a7fa1f85353f601ef195"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Description détaillée</h2>
+<div class="textblock"><p>Fichier du jeu sodoku. </p>
+<dl class="section author"><dt>Auteur</dt><dd>Célestin Besson </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>1 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2023-10-25 to...</dd></dl>
+<dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2023 </dd></dl>
+</div><h2 class="groupheader">Documentation des macros</h2>
+<a id="a59318f63f43f22891fea4f4e6dc4f306" name="a59318f63f43f22891fea4f4e6dc4f306"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59318f63f43f22891fea4f4e6dc4f306">&#9670;&#160;</a></span>CASE_VIDE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define CASE_VIDE&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adb7f8c0a2fa311229a104248cb8e81d4" name="adb7f8c0a2fa311229a104248cb8e81d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb7f8c0a2fa311229a104248cb8e81d4">&#9670;&#160;</a></span>GREEN_FG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GREEN_FG&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7e1fb20209d6f3d4d403fd0fc8e6bd6b" name="a7e1fb20209d6f3d4d403fd0fc8e6bd6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e1fb20209d6f3d4d403fd0fc8e6bd6b">&#9670;&#160;</a></span>GRILLE_CASE_VIDE_CHAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GRILLE_CASE_VIDE_CHAR&#160;&#160;&#160;'.'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a449e3813fbbd1e03bb7a80638c825d78" name="a449e3813fbbd1e03bb7a80638c825d78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a449e3813fbbd1e03bb7a80638c825d78">&#9670;&#160;</a></span>GRILLE_COIN_CHAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GRILLE_COIN_CHAR&#160;&#160;&#160;'+'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a46e55f333ea42343745eb6ad00d95349" name="a46e55f333ea42343745eb6ad00d95349"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46e55f333ea42343745eb6ad00d95349">&#9670;&#160;</a></span>GRILLE_HORIZONTAL_SEP_CHAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GRILLE_HORIZONTAL_SEP_CHAR&#160;&#160;&#160;'-'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a933d48e3e63c9982abfac980fb564d93" name="a933d48e3e63c9982abfac980fb564d93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a933d48e3e63c9982abfac980fb564d93">&#9670;&#160;</a></span>GRILLE_VERTICAL_SEP_CHAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define GRILLE_VERTICAL_SEP_CHAR&#160;&#160;&#160;'|'</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a17e333794ae761cd55ec6fd6fc0f1bac" name="a17e333794ae761cd55ec6fd6fc0f1bac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17e333794ae761cd55ec6fd6fc0f1bac">&#9670;&#160;</a></span>MAX_MSG_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_MSG_SIZE&#160;&#160;&#160;500</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a99c609ff6b93e04a7a94562301e4a81d" name="a99c609ff6b93e04a7a94562301e4a81d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99c609ff6b93e04a7a94562301e4a81d">&#9670;&#160;</a></span>MAX_SAISIE_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MAX_SAISIE_SIZE&#160;&#160;&#160;500</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0240ac851181b84ac374872dc5434ee4" name="a0240ac851181b84ac374872dc5434ee4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0240ac851181b84ac374872dc5434ee4">&#9670;&#160;</a></span>N</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define N&#160;&#160;&#160;3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a879ec990e589a8e9f5a119c760605a73" name="a879ec990e589a8e9f5a119c760605a73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a879ec990e589a8e9f5a119c760605a73">&#9670;&#160;</a></span>RED_FG</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define RED_FG&#160;&#160;&#160;31</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7b29335add3a553ed85d0e3ace85629c" name="a7b29335add3a553ed85d0e3ace85629c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b29335add3a553ed85d0e3ace85629c">&#9670;&#160;</a></span>TAILLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TAILLE&#160;&#160;&#160;9</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des définitions de type</h2>
+<a id="a8c22cc7b780b5bd967e61ce59042e04f" name="a8c22cc7b780b5bd967e61ce59042e04f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c22cc7b780b5bd967e61ce59042e04f">&#9670;&#160;</a></span>t_grille</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int t_grille[<a class="el" href="sudoku_8c.html#a7b29335add3a553ed85d0e3ace85629c">TAILLE</a>][<a class="el" href="sudoku_8c.html#a7b29335add3a553ed85d0e3ace85629c">TAILLE</a>]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>type matrice de taille TAILLE * TAILLE </p>
+
+</div>
+</div>
+<h2 class="groupheader">Documentation des fonctions</h2>
+<a id="a182c6578d0a61d0d0f528b2a0768e01d" name="a182c6578d0a61d0d0f528b2a0768e01d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a182c6578d0a61d0d0f528b2a0768e01d">&#9670;&#160;</a></span>afficheLigneTiret()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficheLigneTiret </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Affiche une ligne de tiret, est utilisé dans la fonction afficheGrille. </p>
+
+</div>
+</div>
+<a id="a94f311bb3e1da5d8ac75150d0f3fe806" name="a94f311bb3e1da5d8ac75150d0f3fe806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94f311bb3e1da5d8ac75150d0f3fe806">&#9670;&#160;</a></span>afficherGrille()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void afficherGrille </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>grille</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Affichage personalisé de la grille. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grille</td><td>t_grille grille a afficher </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a31d64c0db64e3fb6f6558a0046d4d08d" name="a31d64c0db64e3fb6f6558a0046d4d08d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31d64c0db64e3fb6f6558a0046d4d08d">&#9670;&#160;</a></span>chargerGrille()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void chargerGrille </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>grille</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Charge les valeurs d'un grille a partir d'un nom de fichier. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grille</td><td>t_grille grille a charger </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="adb4d7e87baea5547b2e11238dcf4ed95" name="adb4d7e87baea5547b2e11238dcf4ed95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb4d7e87baea5547b2e11238dcf4ed95">&#9670;&#160;</a></span>grilleRempli()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool grilleRempli </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>grille</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retourne un booleen selon si la grille est rempli ou non. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grille</td><td>t_grile </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
+<a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int main </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Programme principal du sudoku. </p>
+<dl class="section return"><dt>Renvoie</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="ac5750e2ebe4ef27bc89005680e827783" name="ac5750e2ebe4ef27bc89005680e827783"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5750e2ebe4ef27bc89005680e827783">&#9670;&#160;</a></span>nbElementsColonne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int nbElementsColonne </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>col</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compte le nombre de case rempli présent dans une colonne. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td></td></tr>
+    <tr><td class="paramname">col</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="a4ef12c19a8bee68e190695eb0cf2ffe8" name="a4ef12c19a8bee68e190695eb0cf2ffe8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ef12c19a8bee68e190695eb0cf2ffe8">&#9670;&#160;</a></span>nbElementsLigne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int nbElementsLigne </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>g</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>lig</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compte le nombre de case rempli présent dans une ligne. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">g</td><td></td></tr>
+    <tr><td class="paramname">lig</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="aa7e7eb4bb01bad4f4a300c85ebf14081" name="aa7e7eb4bb01bad4f4a300c85ebf14081"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7e7eb4bb01bad4f4a300c85ebf14081">&#9670;&#160;</a></span>possible()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool possible </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>grille</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numLigne</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>numColonne</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>valeur</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retourne vrai si la valeur au coordonné passé en paramètre n'existe pas dans la ligne, la colonne ou le block, et faux si c'est l'inverse. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grille</td><td></td></tr>
+    <tr><td class="paramname">numLigne</td><td></td></tr>
+    <tr><td class="paramname">numColonne</td><td></td></tr>
+    <tr><td class="paramname">valeur</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
+<a id="a614765a976c6410f9d0352e7084a4e0e" name="a614765a976c6410f9d0352e7084a4e0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a614765a976c6410f9d0352e7084a4e0e">&#9670;&#160;</a></span>possibleBloc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool possibleBloc </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>grille</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>debutBlocLigne</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>debutBlocColonne</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>valeur</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retourne un booleen selon si la valeur est présente dans la colonne de la grille. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grille</td><td></td></tr>
+    <tr><td class="paramname">debutBlocLigne</td><td></td></tr>
+    <tr><td class="paramname">debutBlocColonne</td><td></td></tr>
+    <tr><td class="paramname">valeur</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="a8dcc6db413c3bbea58c9ac89af4e28e4" name="a8dcc6db413c3bbea58c9ac89af4e28e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dcc6db413c3bbea58c9ac89af4e28e4">&#9670;&#160;</a></span>possibleColonne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool possibleColonne </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>grille</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>colonneIndice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>valeur</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retourne un booleen selon si la valeur est présente dans la colonne de la grille. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grille</td><td>t_grille </td></tr>
+    <tr><td class="paramname">colonneIndice</td><td>int </td></tr>
+    <tr><td class="paramname">valeur</td><td>int </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="a3ec42de684e23b770918bed694245354" name="a3ec42de684e23b770918bed694245354"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ec42de684e23b770918bed694245354">&#9670;&#160;</a></span>possibleLigne()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool possibleLigne </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="sudoku_8c.html#a8c22cc7b780b5bd967e61ce59042e04f">t_grille</a>&#160;</td>
+          <td class="paramname"><em>grille</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ligneIndice</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>valeur</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retourne un booleen selon si la valeur est présente dans la ligne de la grille. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">grille</td><td>t_grille </td></tr>
+    <tr><td class="paramname">ligneIndice</td><td>int </td></tr>
+    <tr><td class="paramname">valeur</td><td>int </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Renvoie</dt><dd>int </dd></dl>
+
+</div>
+</div>
+<a id="af671dfc2a884bbd0fd5659e501f4f551" name="af671dfc2a884bbd0fd5659e501f4f551"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af671dfc2a884bbd0fd5659e501f4f551">&#9670;&#160;</a></span>printErreur()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void printErreur </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>message</em>[]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Affiche une erreur. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa688f7398a6e656bc522b2fdab53e397" name="aa688f7398a6e656bc522b2fdab53e397"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa688f7398a6e656bc522b2fdab53e397">&#9670;&#160;</a></span>printfCouleur()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void printfCouleur </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>couleurCaractere</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>couleurFond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Impression personnalisée de texte avec des couleurs. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">couleurCaractere</td><td>code couleur </td></tr>
+    <tr><td class="paramname">couleurFond</td><td>code couleur </td></tr>
+    <tr><td class="paramname">format</td><td></td></tr>
+    <tr><td class="paramname">...</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a2daae591d9c83f7d8a44b8b1876e0b3d" name="a2daae591d9c83f7d8a44b8b1876e0b3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2daae591d9c83f7d8a44b8b1876e0b3d">&#9670;&#160;</a></span>printSucces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void printSucces </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>message</em>[]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Affiche un succes. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a918723b21d57a7fa1f85353f601ef195" name="a918723b21d57a7fa1f85353f601ef195"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a918723b21d57a7fa1f85353f601ef195">&#9670;&#160;</a></span>saisir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void saisir </td>
+          <td>(</td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>var</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Permet de saisir et de vérifier une valeur. </p>
+<dl class="params"><dt>Paramètres</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">var</td><td>variable affecté </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Généré par&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+</small></address>
+</body>
+</html>
